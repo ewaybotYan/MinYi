@@ -5,12 +5,12 @@
 - http://www.tangowithdjango.com/book17/
 - https://github.com/leifos/tango_with_django
 
-## 新增内容
+## 1. 新增内容
 
 从Django 1.7开始对于数据库的操作有所改变，比如migratesql和migrate。
 
 
-## 概览
+## 2. 概览
 
 这个教程会学到的内容，同时也是一个django知识点清单:
 
@@ -31,7 +31,7 @@
 这个教程过程以建立一个叫Rango的应用，在这个过程中会涉及web开发需要的各个部分。
 
 
-## 准备工作
+## 3. 准备工作
 
 建立环境:
 
@@ -45,7 +45,7 @@ $ pip install pillow
 $ pip freeze > requirements.txt
 ```
 
-## Django基础
+## 4. Django基础
 
 
 ### 创建项目
@@ -139,7 +139,7 @@ urlpatterns = patterns('',
 - 测试
 
 
-## 模板与静态文件
+## 5. 模板与静态文件
 
 ### 使用模板
 
@@ -241,7 +241,7 @@ STATICFILES_DIRS = (
 **存疑： DEBUG模式与static、media文件的问题？**
 
 
-## 模型与数据库
+## 6. 模型与数据库
 
 修改rango/models.py:
 
@@ -435,7 +435,7 @@ admin.site.register(Page,PageAdmin)
 - 建立脚本化测试
 
 
-## 模型-模板-视图
+## 7. 模型-模板-视图
 
 ### 数据驱动页面
 
@@ -613,7 +613,7 @@ url(r'^category/(?P<category_name_slug>[\w\-]+)/$', views.category, name='catego
 
 
 
-## 玩转表单
+## 8. 玩转表单
 
 
 要增加对表单的支持，基本流程是:
@@ -802,6 +802,468 @@ url(r'^test/(?P<year>\d{4})/(?P<month>\d{2})/$', test_view,name="the_test_view")
 - url配置中的``name``作用是在模板里面使用url的name，即使更新了url映射路径，但只要name没变，就不需要修改模板,如这里的``the_test_view``
 
 
-## 用户授权
+## 9. 用户授权
 
+
+Django的用户授权功能使用``django.contrib.auth``。
+
+### 确保已经安装auth应用
+
+在settings.py中确保在INSTALLED_APPS配置项包含``django.contrib.auth``.
+
+### 增加User模型
+
+User模型包含5个主要属性:
+
+- 用户账号
+- 账号密码
+- 用户邮箱
+- 用户的姓
+- 用户的名
+
+其它可选属性:
+
+- **URLField**可以指定用户主页链接
+- **ImageField**可以指定用户的头像
+
+建立模型:
+
+```
+from django.contrib.auth.models import User
+class UserProfile(models.Model):
+    # This line is required. Links UserProfile to a User model instance.
+    user = models.OneToOneField(User)
+        
+    # The additional attributes we wish to include.
+    website = models.URLField(blank=True)
+    picture = models.ImageField(upload_to='profile_images', blank=True)
+                    
+    # Override the __unicode__() method to return out something meaningful!
+    def __unicode__(self):
+        return self.user.username
+```
+
+不要忘记注册管理接口和更新数据库。
+
+### 用户注册视图与模板
+
+增加表单:
+
+```
+class UserForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput())
+    
+    class Meta:
+       model = User
+       fields = ('username', 'email', 'password')
+                        
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+       model = UserProfile
+       fields = ('website', 'picture')
+```
+
+增加视图:
+
+```
+from rango.forms import UserForm, UserProfileForm
+
+def register(request):
+
+    # A boolean value for telling the template whether the registration was successful.
+    # Set to False initially. Code changes value to True when registration succeeds.
+    registered = False
+            
+    # If it's a HTTP POST, we're interested in processing form data.
+    if request.method == 'POST':
+        # Attempt to grab information from the raw form information.
+        # Note that we make use of both UserForm and UserProfileForm.
+        user_form = UserForm(data=request.POST)
+        profile_form = UserProfileForm(data=request.POST)
+        
+        # If the two forms are valid...
+        if user_form.is_valid() and profile_form.is_valid():
+            # Save the user's form data to the database.
+            user = user_form.save()
+            
+            # Now we hash the password with the set_password method.
+            # Once hashed, we can update the user object.
+            user.set_password(user.password)
+            user.save()
+            
+            # Now sort out the UserProfile instance.
+            # Since we need to set the user attribute ourselves, we set commit=False.
+            # This delays saving the model until we're ready to avoid integrity problems.
+            profile = profile_form.save(commit=False)
+            profile.user = user
+            
+            # Did the user provide a profile picture?
+            # If so, we need to get it from the input form and put it in the UserProfile model.
+            if 'picture' in request.FILES:
+                profile.picture = request.FILES['picture']
+                
+                # Now we save the UserProfile model instance.
+                profile.save()
+                
+            # Update our variable to tell the template registration was successful.
+            registered = True
+                
+        # Invalid form or forms - mistakes or something else?
+        # Print problems to the terminal.
+        # They'll also be shown to the user.
+        else:
+            print user_form.errors, profile_form.errors
+                 
+         # Not a HTTP POST, so we render our form using two ModelForm instances.
+         # These forms will be blank, ready for user input.
+         else:
+             user_form = UserForm()
+             profile_form = UserProfileForm()
+             
+         # Render the template depending on the context.
+         return render(request,
+                       'rango/register.html',
+                       {'user_form': user_form, 'profile_form': profile_form, 'registered': registered} )
+```
+
+注册页面模板:
+
+```
+<!DOCTYPE html>
+<html>
+    <head>
+      <title>Rango</title>
+    </head>
+                
+    <body>
+      <h1>Register with Rango</h1>
+      
+      {% if registered %}
+        Rango says: <strong>thank you for registering!</strong>
+        <a href="/rango/">Return to the homepage.</a><br />
+      {% else %}
+        Rango says: <strong>register here!</strong><br />
+        
+        <form id="user_form" method="post" action="/rango/register/"
+          enctype="multipart/form-data">
+          
+          {% csrf_token %}
+          
+          <!-- Display each form. The as_p method wraps each element in a paragraph
+          (<p>) element. This ensures each element appears on a new line,
+          making everything look neater. -->
+          {{ user_form.as_p }}
+          {{ profile_form.as_p }}
+          
+          <!-- Provide a button to click to submit the form. -->
+          <input type="submit" name="submit" value="Register" />
+        </form>
+     {% endif %}
+   </body>
+</html>
+```
+
+如果要通过表单上传文件，则添加 ``enctype='multipart/form-data'``.
+
+添加url映射:
+
+```
+url(r'^register/$', views.register, name='register'), 
+```
+
+### 登陆视图
+
+```
+from django.contrib.auth import authenticate, login
+from django.http import HttpResponseRedirect, HttpResponse
+
+def user_login(request):
+
+    # If the request is a HTTP POST, try to pull out the relevant information.
+    if request.method == 'POST':
+        # Gather the username and password provided by the user.
+        # This information is obtained from the login form.
+        # We use request.POST.get('<variable>') as opposed to request.POST['<variable>'],
+        # because the request.POST.get('<variable>') returns None, if the value does not exist,
+        # while the request.POST['<variable>'] will raise key error exception
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        
+        # Use Django's machinery to attempt to see if the username/password
+        # combination is valid - a User object is returned if it is.
+        user = authenticate(username=username, password=password)
+        
+        # If we have a User object, the details are correct.
+        # If None (Python's way of representing the absence of a value), no user
+        # with matching credentials was found.
+        if user:
+            # Is the account active? It could have been disabled.
+            if user.is_active:
+               # If the account is valid and active, we can log the user in.
+               # We'll send the user back to the homepage.
+               login(request, user)
+               return HttpResponseRedirect('/rango/')
+            else:
+               # An inactive account was used - no logging in!
+               return HttpResponse("Your Rango account is disabled.")
+        else:
+           # Bad login details were provided. So we can't log the user in.
+           print "Invalid login details: {0}, {1}".format(username, password)
+           return HttpResponse("Invalid login details supplied.")
+           
+     # The request is not a HTTP POST, so display the login form.
+     # This scenario would most likely be a HTTP GET.
+     else:
+         # No context variables to pass to the template system, hence the
+         # blank dictionary object...
+         return render(request, 'rango/login.html', {})
+```
+
+函数``authenticate()``可以验证用户的正确性,函数``login()``用于登录。
+
+**注意**: 登录后的网页跳转使用函数``HttpResponseRedirect()``.
+
+
+### 登录模板
+
+```
+<!DOCTYPE html>
+<html>
+    <head>
+      <!-- Is anyone getting tired of repeatedly entering the header over and over?? -->
+      <title>Rango</title>
+    </head>
+    
+    <body>
+      <h1>Login to Rango</h1>
+    
+      <form id="login_form" method="post" action="/rango/login/">
+        {% csrf_token %}
+        Username: <input type="text" name="username" value="" size="50" />
+        <br />
+        Password: <input type="password" name="password" value="" size="50" />
+        <br />
+    
+        <input type="submit" value="submit" />
+      </form>
+    
+    </body>
+</html>
+```
+
+不要忘记``{% csrf_token %}``.
+
+
+可以在模板中查看用户登录验证信息:
+
+```
+{% if user.is_authenticated %}
+
+<h1>Rango says... hello {{ user.username }}!</h1>
+
+{% else %}
+
+<h1>Rango says... hello world!</h1>
+
+{% endif %}
+```
+
+### 访问控制
+
+一种方法是直接判断:
+
+```
+def some_view(request):
+    if not request.user.is_authenticated():
+            return HttpResponse("You are logged in.")
+    else:
+            return HttpResponse("You are not logged in.")
+```
+
+第二种是使用**装饰器**:
+
+```
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def restricted(request):
+    return HttpResponse("Since you're logged in, you can see this text!")
+```
+
+如果用户访问需要登录授权的页面，则会跳转到登录界面，可以在settings.py中设置默认登陆url:
+
+```
+LOGIN_URL = '/rango/login/'
+```
+
+### 登出
+
+```
+from django.contrib.auth import logout
+
+# Use the login_required() decorator to ensure only those logged in can access the view.
+@login_required
+def user_logout(request):
+    # Since we know the user is logged in, we can now just log them out.
+    logout(request)
+        
+    # Take the user back to the homepage.
+    return HttpResponseRedirect('/rango/')
+```
+
+修改首页模板:
+
+```
+{% if user.is_authenticated %}
+  <a href="/rango/restricted/">Restricted Page</a><br />
+  <a href="/rango/logout/">Logout</a><br />
+{% else %}
+  <a href="/rango/register/">Register Here</a><br />
+  <a href="/rango/login/">Login</a><br />
+{% endif %}
+
+<a href="/rango/about/">About</a><br/>
+<a href="/rango/add_category/">Add a New Category</a><br />
+```
+
+## 10. 玩转模板
+
+目前的模板有大量重复内容，可以将通用的模板片段独立出来。
+
+创建基础模板 templates/basic.html:
+
+```
+<!DOCTYPE html>
+
+<html>
+    <head>
+      <title>Rango</title>
+    </head>
+    
+    <body>
+      <!-- Page specific content goes here -->
+    </body>
+</html>
+```
+
+再次强调第一行必须是``<!DOCTYPE html>``.
+
+### 模板语句块
+
+如:
+
+```
+<!DOCTYPE html>
+
+<html>
+    <head lang="en">
+      <meta charset="UTF-8">
+      <title>Rango</title>
+    </head>
+    
+    <body>
+      {% block body_block %}{% endblock %}
+    </body>
+</html>
+```
+
+这里定义的body_block可以在后续继承此模板的模板文件里面替换.
+
+修改basic.html:
+
+```
+<!DOCTYPE html>
+
+<html>
+    <head>
+       <title>Rango - {% block title %}How to Tango with Django!{% endblock %}</title>
+    </head>
+    
+    <body>
+       <div>
+          {% block body_block %}{% endblock %}
+       </div>
+    
+       <hr />
+    
+       <div>
+         <ul>
+           {% if user.is_authenticated %}
+             <li><a href="/rango/restricted/">Restricted Page</a></li>
+             <li><a href="/rango/logout/">Logout</a></li>
+             <li><a href="/rango/add_category/">Add a New Category</a></li>
+           {% else %}
+             <li><a href="/rango/register/">Register Here</a></li>
+             <li><a href="/rango/login/">Login</a></li>
+           {% endif %}
+    
+             <li><a href="/rango/about/">About</a></li>
+         </ul>
+       </div>
+    </body>
+</html>
+```
+
+这里的title_block设置了默认值.
+
+### 模板继承
+
+```
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}{{ category_name }}{% endblock %}
+
+{% block body_block %}
+        <h1>{{ category_name }}</h1>
+        {% if category %}
+          {% if pages %}
+            <ul>
+               {% for page in pages %}
+                 <li><a href="{{ page.url }}">{{ page.title }}</a></li>
+               {% endfor %}
+            </ul>
+         {% else %}
+            <strong>No pages currently in category.</strong>
+         {% endif %}
+         
+         {% if user.is_authenticated %}
+            <a href="/rango/category/{{category.slug}}/add_page/">Add a Page</a>
+         {% endif %}
+        {% else %}
+            The specified category {{ category_name }} does not exist!
+        {% endif %}
+         
+{% endblock %}
+```
+
+**注意**: 继承模板的时候，路径是从模板根目录开始的，这里面继承的是``templates/basic.html``，而不是``templates/rango/basic.html``.
+
+
+### 模板中引用URL
+
+如果在urls.py中为URL映射指定了``name='about'``,则可以在模板中这样使用:
+
+```
+<li><a href="{% url 'about' %}">About</a></li>
+```
+
+否则:
+
+```
+<li><a href="{% url 'rango.views.about' %}">About</a></li>
+```
+
+这样即使后期urls.py中映射修改了，只要name不变，则不需要在所有模板文件中修改一遍，更好维护.
+
+对于带有参数的url映射，使用方法如:
+
+```
+{% for category in categories %}
+    <li><a href="{% url 'category'  category.slug %}">{{ category.name }}</a></li>
+{% endfor %}
+```
+
+## 11. Cookie与会话
 
