@@ -1574,8 +1574,139 @@ urlpatterns = patterns('',
 ### index.html
 
 ```
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}Index{% endblock %}
+
+        {% block body_block %}
+{% if user.is_authenticated %}
+    <div class="page-header">
+
+                <h1>Rango says... hello {{ user.username }}!</h1>
+            {% else %}
+                <h1>Rango says... hello world!</h1>
+            {% endif %}
+</div>
+
+         <div class="row placeholders">
+            <div class="col-xs-12 col-sm-6 placeholder">
 
 
 
+               <div class="panel panel-primary">
+                 <div class="panel-heading">
+                   <h3 class="panel-title">Categories</h3>
+                 </div>
+               </div>
+
+               {% if categories %}
+
+                    <ul class="list-group">
+                        {% for category in categories %}
+                         <li class="list-group-item"><a href="{% url 'category'  category.slug %}">{{ category.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <strong>There are no categories present.</strong>
+                {% endif %}
+
+            </div>
+            <div class="col-xs-12 col-sm-6 placeholder">
+              <div class="panel panel-primary">
+                <div class="panel-heading">
+                  <h3 class="panel-title">Pages</h3>
+                </div>
+                    </div>
+
+                {% if pages %}
+                    <ul class="list-group">
+                        {% for page in pages %}
+                         <li class="list-group-item"><a href="{{page.url}}">{{ page.title }}</a></li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <strong>There are no categories present.</strong>
+                {% endif %}
+            </div>
+
+          </div>
 
 
+       <p> visits: {{ visits }}</p>
+        {% endblock %}
+```
+
+### login.html
+
+- 参考: http://getbootstrap.com/examples/signin/
+
+```
+{% extends 'base.html' %}
+
+{% block body_block %}
+
+<link href="http://getbootstrap.com/examples/signin/signin.css" rel="stylesheet">
+
+<form class="form-signin" role="form" method="post" action=".">
+{% csrf_token %}
+
+<h2 class="form-signin-heading">Please sign in</h2>
+<input class="form-control" placeholder="Username" id="id_username" maxlength="254" name="username" type="text" required autofocus=""/>
+<input type="password" class="form-control" placeholder="Password" id="id_password" name="password" type="password" required />
+
+<button class="btn btn-lg btn-primary btn-block" type="submit" value="Submit" />Sign in</button>
+</form>
+
+{% endblock %}
+```
+
+
+### 使用Django-Bootstrap-Toolkit
+
+- 参考: https://github.com/dyve/django-bootstrap-toolkit
+
+```
+$ pip install django-bootstrap-toolkit
+```
+
+settings.py:
+
+```
+INSTALLED_APPS=(
+   #...
+   bootstrap_toolkit,
+   )
+```
+
+category.html:
+
+```
+{% extends 'base.html' %}
+{% load bootstrap_toolkit %}
+
+{% block title %}Add Category{% endblock %}
+
+{% block body_block %}
+
+<form id="category_form" method="post" action="{% url 'add_category' %}">
+  <h2 class="form-signin-heading">Add a Category</a></h2>
+  {% csrf_token %}
+  
+  {{ form|as_bootstrap }}
+  
+  <br/>
+  
+  <button class="btn btn-primary" type="submit" name="submit">Create Category</button>
+  </form>
+  
+  {% endblock %}
+```
+
+更加简洁.
+
+## 14. 模板标签
+
+
+   
