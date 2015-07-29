@@ -1265,5 +1265,317 @@ def user_logout(request):
 {% endfor %}
 ```
 
-## 11. Cookie与会话
+## 11. Cookie与Session
+
+- **Cookie**是为了提高用户体验，保存在用户浏览器的数据，每次访问网站时候会把Cookie信息保护在request数据里面，使用``request.COOKIES``
+- **Session**是由于HTTP是无状态协议，为了保存用户状态，在服务器端保存了会话信息``request.session``
+
+### 加入会话功能
+
+默认在settings.py中激活了此功能:
+
+```python
+MIDDLEWARE_CLASSES = (
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    #...
+    )
+    
+INSTALLED_APPS = (
+    'django.contrib.sessions',
+    #...
+    )
+```
+
+
+### 测试Cookie功能
+
+Django提供了测试Cookie的函数:
+
+- set_test_cookie()
+- test_cookie_worked()
+- delete_test_cookie()
+
+在index视图:
+
+```
+request.session.set_test_cookie()
+```
+
+在register视图:
+
+```
+if request.session.test_cookie_worked():
+    print ">>>> TEST COOKIE WORKED!"
+    request.session.delete_test_cookie()
+```
+
+通过这个方法可以测试是否支持Cookie。
+
+
+### 保存在客户端的Cookie数据
+
+- 获取cookie值使用``request.COOKIES['cookie_name']``
+- 新建cookie是使用``set_cookie()``,调用者是response对象，即render()返回的对象
+
+### 保存在服务器的Session数据
+
+- 获取session数据，使用``request.session.get()``
+- 设置session数据，使用``request.session[]``
+
+```
+def index(request):
+
+    category_list = Category.objects.order_by('-likes')[:5]
+    page_list = Page.objects.order_by('-views')[:5]
+        
+    context_dict = {'categories': category_list, 'pages': page_list}
+            
+    visits = request.session.get('visits')
+    if not visits:
+        visits = 1
+        
+    reset_last_visit_time = False
+                                
+    last_visit = request.session.get('last_visit')
+    if last_visit:
+        last_visit_time = datetime.strptime(last_visit[:-7], "%Y-%m-%d %H:%M:%S")
+        
+        if (datetime.now() - last_visit_time).seconds > 0:
+        # ...reassign the value of the cookie to +1 of what it was before...
+        visits = visits + 1
+        # ...and update the last visit cookie, too.
+        reset_last_visit_time = True
+    else:
+        # Cookie last_visit doesn't exist, so create it to the current date/time.
+        reset_last_visit_time = True
+        
+    if reset_last_visit_time:
+        request.session['last_visit'] = str(datetime.now())
+        request.session['visits'] = visits
+        context_dict['visits'] = visits
+        
+        
+    response = render(request,'rango/index.html', context_dict)
+    
+    return response
+```
+
+在使用会话之前，记得删除掉之前加的cookie数据，会发现使用会话之后，cookie里面只保存了``sessionid``一个值.
+
+### 会话超时失效
+
+会话超时失效有2种设置方法：
+
+- 当用户关闭浏览器，则会话数据失效;默认是关闭的，可以在settings.py中添加``SESSION_EXPIRE_AT_BROWSER_CLOSE=True``来激活。
+- 会话有一定时间，超过时间则失效;默认是激活的，可以在settings.py中添加``SESSION_COOKIE_AGE=1209600``来设置2周后失效.
+
+
+### 清除会话数据
+
+应该每天cronjob形式运行:
+
+```
+$ python manage.py clearsessions
+```
+
+### 注意事项
+
+
+- 是否真的要把数据以Cookie形式存在客户端?
+- 保存在客户端的Cookie的安全性要考虑。
+- 如果客户端浏览器安全级别不支持Cookie，会导致程序无法工作。
+
+## 12. 结合Django-Registration-Redux的用户授权管理
+
+
+大部分应用都有注册、登陆等功能，Django自带的``django-registration-redux``包可以完成这些工作。
+
+### 添加此功能软件包
+
+```
+$ pip install django-registration-redux
+```
+
+修改settings.py:
+
+```
+INSTALLED_APPS = (
+     'registration', # add in the registration package
+     )
+     
+REGISTRATION_OPEN = True        # If True, users can register
+ACCOUNT_ACTIVATION_DAYS = 7     # One-week activation window; you may, of course, use a different value.
+REGISTRATION_AUTO_LOGIN = True  # If True, the user will be automatically logged in.
+LOGIN_REDIRECT_URL = '/rango/'  # The page you want users to arrive at after they successful log in
+LOGIN_URL = '/accounts/login/'  # The page users are directed to if they are not logged in,
+                                # and are trying to access pages requiring authentication
+```
+
+修改urls.py:
+
+```
+url(r'^accounts/', include('registration.backends.simple.urls')),
+```
+
+此软件包提供了多种注册后台，这是最简单的一步验证，还可以有二步验证等发邮件确认。
+
+
+### URL映射与对应功能
+
+``registration.backend.simple.urls``提供的功能:
+
+- registration -> /accounts/register/
+- registration complete -> /accounts/register/complete
+- login -> /accounts/login/
+- logout -> /accounts/logout/
+- password change -> /password/change/
+- password reset -> /password/reset/
+
+需要修改模板，参考: https://github.com/macdhuibh/django-registration-templates
+
+### 覆盖软件包的某些方法
+
+
+```
+from registration.backends.simple.views import RegistrationView
+
+# Create a new class that redirects the user to the index page, if successful at logging
+class MyRegistrationView(RegistrationView):
+    def get_success_url(self,request, user):
+        return '/rango/'
+            
+            
+urlpatterns = patterns('',
+    #Add in this url pattern to override the default pattern in accounts.
+    url(r'^accounts/register/$', MyRegistrationView.as_view(), name='registration_register'),
+    (r'^accounts/', include('registration.backends.simple.urls')),
+    )
+```
+
+### 发送邮件
+
+安装软件包``django-registration-email``或者``django-allauth``.
+
+
+## 13. 使用Twitter Bootstrap改善前端效果
+
+- http://getbootstrap.com/
+- http://getbootstrap.com/getting-started/#examples
+
+参考示例找到比较贴近需求的类型，基于其修改模板文件
+
+### 修改base.html
+
+```
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="">
+      <meta name="author" content="">
+      <link rel="icon" href="http://getbootstrap.com/favicon.ico">
+      
+      <title>Rango - {% block title %}How to Tango with Django!{% endblock %}</title>
+      
+      <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+      <link href="http://getbootstrap.com/examples/dashboard/dashboard.css" rel="stylesheet">
+      
+      <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+      <![endif]-->
+   </head>
+   
+   <body>
+   
+      <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/rango/">Rango</a>
+          </div>
+        <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="{% url 'index' %}">Home</a></li>
+          {% if user.is_authenticated %}
+          <li><a href="{% url 'restricted' %}">Restricted Page</a></li>
+          <li><a href="{% url 'auth_logout' %}?next=/rango/">Logout</a></li>
+          <li><a href="{% url 'add_category' %}">Add a New Category</a></li>
+          {% else %}
+          <li><a href="{% url 'registration_register' %}">Register Here</a></li>
+          <li><a href="{% url 'auth_login' %}">Login</a></li>
+          {% endif %}
+          <li><a href="{% url 'about' %}">About</a></li>
+          
+          </ul>
+        </div>
+      </div>
+      </div>
+      
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-3 col-md-2 sidebar">
+          {% block side_block %}{% endblock %}
+          
+          </div>
+          <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <div>
+            {% block body_block %}{% endblock %}
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Bootstrap core JavaScript
+      ================================================== -->
+      <!-- Placed at the end of the document so the pages load faster -->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+      <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+      <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+      <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+   </body>
+</html>
+```
+
+根据示例给的模板修改的。
+
+
+### about.html
+
+可以把base.html中加载的静态文件下载好，这样网站加载速度更快。
+
+修改about.html:
+
+```
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}About{% endblock %}
+
+{% block body_block %}
+    <div class="page-header">
+      <h1>About</h1>
+    </div>
+    <div>
+      <p></strong>.</p>
+      <img  width="90" height="100" src="{% static "images/rango.jpg" %}" alt="Picture of Rango" /> <!-- New line -->
+    </div>
+{% endblock %}
+```
+
+### index.html
+
+```
+
+
+
+
 
