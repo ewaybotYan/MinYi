@@ -1708,5 +1708,277 @@ category.html:
 
 ## 14. 模板标签
 
+想在左边栏添加东西，但又不想对模板大动干戈，则可以创建自己的**模板标签**.
 
+
+### 使用模板标签
    
+创建 ``rango/templatetags``，里面包含空文件 ``__init__.py`` 与 ``rango_extras.py``:
+
+```
+from django import template
+from rango.models import Category
+
+register = template.Library()
+
+@register.inclusion_tag('rango/cats.html')
+def get_category_list():
+    return {'cats': Category.objects.all()}
+```
+
+创建模板文件**rango/cates.html**:
+
+```
+{% if cats %}
+    <ul class="nav nav-sidebar">
+    {% for c in cats %}
+      <li><a href="{% url 'category'  c.slug %}">{{ c.name }}</a></li>
+    {% endfor %}
+    
+{% else %}
+    <li> <strong >There are no category present.</strong></li>
+    
+    </ul>
+{% endif %}
+```
+
+更新**base.html**:
+
+```
+{% load rango_extras %}
+
+<div class="col-sm-3 col-md-2 sidebar">
+
+    {% block side_block %}
+    {% get_category_list %}
+    {% endblock %}
+    
+</div>
+```
+
+需要重启Web Server以生效。
+
+## 15. 增加搜索功能
+
+
+- 添加``Bing Search API``
+
+### 注册Bing API Key
+
+- [Windows Azure](https://account.windowsazure.com/Home/Index)
+- [Windows Azure Marketplace Bing Search API page](https://datamarket.azure.com/dataset/5BA839F1-12CE-4CCE-BF57-A49D98D29A44)
+
+获取到 **Primary Account Key**
+
+
+### 增加搜索功能
+
+keys.py:
+
+```
+BING_API_KEY = '<Bing Search API Key>'
+```
+
+bing_search.py:
+
+```
+import json
+import urllib, urllib2
+from keys import BING_API_KEY
+
+# Add your BING_API_KEY
+
+#BING_API_KEY = '<insert_bing_api_key>'
+
+def run_query(search_terms):
+    # Specify the base
+    root_url = 'https://api.datamarket.azure.com/Bing/Search/'
+    source = 'Web'
+    
+    # Specify how many results we wish to be returned per page.
+    # Offset specifies where in the results list to start from.
+    # With results_per_page = 10 and offset = 11, this would start from page 2.
+    results_per_page = 10
+    offset = 0
+    
+    # Wrap quotes around our query terms as required by the Bing API.
+    # The query we will then use is stored within variable query.
+    query = "'{0}'".format(search_terms)
+    query = urllib.quote(query)
+    
+    # Construct the latter part of our request's URL.
+    # Sets the format of the response to JSON and sets other properties.
+    search_url = "{0}{1}?$format=json&$top={2}&$skip={3}&Query={4}".format(
+             root_url,
+             source,
+             results_per_page,
+             offset,
+             query)
+             
+    # Setup authentication with the Bing servers.
+    # The username MUST be a blank string, and put in your API key!
+    username = ''
+    
+    
+    # Create a 'password manager' which handles authentication for us.
+    password_mgr = urllib2.HTTPPasswordMgrWithDefaultRealm()
+    password_mgr.add_password(None, search_url, username, BING_API_KEY)
+    
+    # Create our results list which we'll populate.
+    results = []
+    
+    try:
+       # Prepare for connecting to Bing's servers.
+       handler = urllib2.HTTPBasicAuthHandler(password_mgr)
+       opener = urllib2.build_opener(handler)
+       urllib2.install_opener(opener)
+       
+       # Connect to the server and read the response generated.
+       response = urllib2.urlopen(search_url).read()
+       
+       # Convert the string response to a Python dictionary object.
+       json_response = json.loads(response)
+       
+       # Loop through each page returned, populating out results list.
+       for result in json_response['d']['results']:
+           results.append({
+             'title': result['Title'],
+             'link': result['Url'],
+             'summary': result['Description']})
+             
+    # Catch a URLError exception - something went wrong when connecting!
+    except urllib2.URLError, e:
+        print "Error when querying the Bing API: ", e
+        
+    # Return the list of results to the calling function.
+    return results
+```
+
+search.html:
+
+```
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block title %}Search{% endblock %}
+
+{% block body_block %}
+
+    <div class="page-header">
+      <h1>Search with Rango</h1>
+    </div>
+    
+    <div class="row">
+    
+      <div class="panel panel-primary">
+      <br/>
+      
+         <form class="form-inline" id="user_form" method="post" action="{% url 'search' %}">
+           {% csrf_token %}
+           <!-- Display the search form elements here -->
+           <input class="form-control" type="text" size="50" name="query" value="" id="query" />
+           <input class="btn btn-primary" type="submit" name="submit" value="Search" />
+           <br />
+         </form>
+         
+         <div class="panel">
+           {% if result_list %}
+             <div class="panel-heading">
+               <h3 class="panel-title">Results</h3>
+               <!-- Display search results in an ordered list -->
+               <div class="panel-body">
+                 <div class="list-group">
+                   {% for result in result_list %}
+                     <div class="list-group-item">
+                       <h4 class="list-group-item-heading"><a href="{{ result.link }}">{{ result.title }}</a></h4>
+                       <p class="list-group-item-text">{{ result.summary }}</p>
+                     </div>
+                   {% endfor %}
+                 </div>
+               </div>
+            {% endif %}
+          </div>
+         </div>
+       </div>
+{% endblock %}
+```
+
+views.py:
+
+```
+from rango.bing_search import run_query
+
+def search(request):
+    result_list = []
+    
+    if request.method == 'POST':
+       query = request.POST['query'].strip()
+       
+       if query:
+         # Run our Bing function to get the results list!
+         result_list = run_query(query)
+         
+    return render(request, 'rango/search.html', {'result_list': result_list})
+```
+
+甚至可以定制一个自己用的搜索网站....
+
+
+## 21. 部署到PythonAnyWhere
+
+
+```
+# TURN ON THE VIRTUAL ENVIRONMENT FOR YOUR APPLICATION
+activate_this = '/home/<username>/.virtualenvs/rango/bin/activate_this.py'
+execfile(activate_this, dict(__file__=activate_this))
+import os
+import sys
+
+# ADD YOUR PROJECT TO THE PYTHONPATH FOR THE PYTHON INSTANCE
+path = '/home/<username>/tango_with_django_17/'
+if path not in sys.path:
+    sys.path.append(path)
+    
+# IMPORTANTLY GO TO THE PROJECT DIR
+os.chdir(path)
+
+# TELL DJANGO WHERE YOUR SETTINGS MODULE IS LOCATED
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'tango_with_django_project_17.settings')
+
+# IMPORT THE DJANGO SETUP - NEW TO 1.7
+import django
+django.setup()
+
+# IMPORT THE DJANGO WSGI HANDLER TO TAKE CARE OF REQUESTS
+import django.core.handlers.wsgi
+application = django.core.handlers.wsgi.WSGIHandler()
+```
+
+### 去掉DEBUG模式
+
+```
+ALLOWED_HOSTS = ['<username>.pythonanywhere.com']
+```
+
+
+配置:
+
+```
+static/admin: /home/<username>/.virtualenvs/rango/lib/python2.7/site-packages/django/contrib/admin/static/admin
+static/: /home/<username>/tango_with_django/tango_with_django_project/static
+```
+
+同时取消DEBUG模式：
+
+```
+DEBUG =False
+ALLOWED_HOSTS = ['<username>.pythonanywhere.com']
+```
+
+注意这个URL后面不要有**/**.
+
+
+## 结语
+
+这个教程算学完了，继续学习.
