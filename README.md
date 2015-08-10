@@ -1,1 +1,3 @@
-# 敏毅博客: 基于GitHub的Issue功能
+# 博客
+
+https://github.com/LeslieZhu/MinYi/issues
