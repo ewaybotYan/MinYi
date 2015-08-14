@@ -12,5 +12,6 @@ django-allauth|Integrated set of Django applications addressing authentication, 
 Full Stack Python||http://www.fullstackpython.com/django.html
 awesome-python|A curated list of awesome Python frameworks, libraries and software|https://github.com/vinta/awesome-python
 awesome-django|A curated list of awesome Django apps, projects and resources.|https://github.com/rosarior/awesome-django/
+sqlmap|Automatic SQL injection and database takeover tool |https://github.com/sqlmapproject/sqlmap
 
 
