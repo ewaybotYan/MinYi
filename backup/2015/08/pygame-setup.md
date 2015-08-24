@@ -553,6 +553,74 @@ screen=pygame.display.set_mode((600, 400))
 screen=pygame.display.set_mode((600, 400),FULLSCREEN,32)
 ```
 
+各个标志位说明:
+
+- FULLSCREEN: 创建一个全屏窗口
+- DOUBLEBUF: 创建一个“双缓冲”窗口，建议在HWSURFACE或者OPENGL时使用
+- HWSURFACE: 创建一个硬件加速的窗口，必须和FULLSCREEN同时使用
+- OPENGL: 创建一个OPENGL渲染的窗口
+- RESIZABLE: 创建一个可以改变大小的窗口
+- NOFRAME: 创建一个没有边框的窗口
+
+当窗口大小改变时候,可以相应修改屏幕大小:
+
+```
+if event.type == VIDEORESIZE:
+   SCREEN_SIZE = event.size
+   screen = pygame.display.set_mode(SCREEN_SIZE, RESIZABLE, 32)
+```
+
+
+如果使用`双缓冲`，则刷新使用`pygame.display.flip()`
+
+
+# 裁剪屏幕
+
+```
+screen.set_clip(0, 400, 200, 600)
+draw_map()    #在左下角画地图
+screen.set_clip(0, 0, 800, 60)
+draw_panel()  #在上方画菜单面板
+```
+
+# 让pygame完全控制鼠标
+
+```
+pygame.mouse.set_visible(False)
+pygame.event.set_grab(True)
+```
+
+# 声音
+
+通过`pygame.mixer.init`来初始化声音.
+
+# Sound对象
+
+```
+sound = pygame.mixer.Sound("1.wav")
+```
+
+- fadeout: 淡出声音，可接受一个数字（毫秒）作为淡出时间
+- get_length: 获得声音文件长度，以秒计
+- get_num_channels: 声音要播放多少次
+- get_volume: 获取音量（0.0 ~ 1.0）
+- play: 开始播放，返回一个Channel对象，失败则返回None
+- set_volume: 设置音量
+- stop: 立刻停止播放
+
+# 游戏背景声音
+
+```
+pygame.mixer.music.load("resources/audio/吉森信 春を知らせるもの 続 夏目友人帐のテ マ.wav")
+pygame.mixer.music.play(-1, 0.0)
+pygame.mixer.music.set_volume(0.25)
+```
+
+# 打包发布到Windows平台
+
+http://eyehere.net/2011/python-pygame-novice-professional-py2exe/
+
+
 
 
 
