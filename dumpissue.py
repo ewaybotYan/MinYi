@@ -31,8 +31,9 @@ def dumpIssues(state="open", repo=u"MinYi", user=u"LeslieZhu"):
         
         if not os.path.exists(label_folder):
             os.makedirs(label_folder)
-            
-        filename = u"%s/#%s-%s.md" % (label_folder,number,title,)
+
+        created_at = issue[u"updated_at"][:10]
+        filename = u"%s/#%s-%s-%s.md" % (label_folder,number,created_at,title,)
         content = issue[u"body"]
         
         print filename
