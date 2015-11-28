@@ -592,7 +592,9 @@ pygame.event.set_grab(True)
 
 # 声音
 
-通过`pygame.mixer.init`来初始化声音.
+通过`pygame.mixer.init`来初始化声音. 
+
+在Pygame上只支持`未压缩的WAV`和`OGG`音频文件，`将WAV用于较短的音频文件，而OGG用于较长的音频文件。`
 
 # Sound对象
 
@@ -608,12 +610,30 @@ sound = pygame.mixer.Sound("1.wav")
 - set_volume: 设置音量
 - stop: 立刻停止播放
 
+对于要播放的Sound:
+```
+channel = pygame.mixer.find_channel(True)   # 返回可用最低优先级的频道
+channel.play(sound_clip)
+```
+
 # 游戏背景声音
 
 ```
-pygame.mixer.music.load("resources/audio/吉森信 春を知らせるもの 続 夏目友人帐のテ マ.wav")
+pygame.mixer.music.load("resources/audio/吉森信 春を知らせるもの 続 夏目友人帐のテ マ.ogg")
 pygame.mixer.music.play(-1, 0.0)
 pygame.mixer.music.set_volume(0.25)
+```
+
+如果要切换背景音乐:
+
+```
+# part 1
+pygame.mixer.music.load("xxx")
+pygame.mixer.music.play()
+# part 2
+pygame.mixer.music.fadeout(1000)
+pygame.mixer.music.load("xxx")
+pygame.mixer.music.play()
 ```
 
 # 打包发布到Windows平台
