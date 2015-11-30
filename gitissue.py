@@ -70,10 +70,18 @@ def dumpIssues(state="open", repo=u"MinYi", user=u"LeslieZhu"):
             milestone_description = u""
 
         milestone_file = u"milestones/#%s-%s.md" % (milestone_num,milestone_name,)
-        if not os.path.exists(milestone_file) or (time.time() - os.stat(milestone_file).st_ctime) > 120:
+
+        # 当标题修改了，导致文件名也修改，防止一个issue保存了多个文件
+        for milestonefile in glob.glob(u"milestones/#%s-*.md" % (milestone_num,)):
+            if milestonefile != milestone_file:
+                subprocess.Popen(["git","mv","-f",milestonefile,milestone_file])
+
+        
+        milestone_description = milestone_description.encode("utf-8")
+        if not os.path.exists(milestone_file) or os.stat(milestone_file).st_size != len(milestone_description + '\n'):
             print milestone_file
             cout = open(milestone_file,"w")
-            cout.write(milestone_description.encode("utf-8") + '\n')
+            cout.write(milestone_description + '\n')
             cout.close()
     
 
