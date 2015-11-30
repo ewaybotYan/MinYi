@@ -18,11 +18,21 @@ import glob,subprocess
 
 
 def dumpIssues(state="open", repo=u"MinYi", user=u"LeslieZhu"):
-    content = urllib2.urlopen(u"https://api.github.com/repos/%s/%s/issues?state=%s" % (user,repo,state,))
+    """
+    根据GitHub用户名、项目名、Issue状态条件，批量备份Issues.
+    """
+    
+    if state != "":
+        content = urllib2.urlopen(u"https://api.github.com/repos/%s/%s/issues?state=%s" % (user,repo,state,))
+    else:
+        content = urllib2.urlopen(u"https://api.github.com/repos/%s/%s/issues" % (user,repo,))
+        
     issues = json.loads(content.read())
     
     for issue in issues:
-        # [u'body', u'labels', u'locked', u'title', u'url', u'labels_url', u'created_at', u'events_url', u'comments_url', u'html_url', u'comments', u'number', u'updated_at', u'assignee', u'state', u'user', u'milestone', u'closed_at', u'id']
+        # [u'body', u'labels', u'locked', u'title', u'url', u'labels_url', u'created_at', u'events_url', \
+        #    u'comments_url', u'html_url', u'comments', u'number', u'updated_at', u'assignee', u'state', \
+        #    u'user', u'milestone', u'closed_at', u'id']
 
         title = issue[u"title"]
         number = issue[u"number"]
@@ -34,7 +44,7 @@ def dumpIssues(state="open", repo=u"MinYi", user=u"LeslieZhu"):
             os.makedirs(label_folder)
 
         created_at = issue[u"created_at"][:10]
-        filename = u"%s/#%s-%s-%s.md" % (label_folder,number,created_at,title,)
+        filename = u"%s/#%s-%s-%s.md" % (label_folder,number,created_at,title,) # Warn: 可能本地文件名会有点乱码，但在GitHub网站则会显示正常。
 
         # 当标题修改了，导致文件名也修改，防止一个issue保存了多个文件
         for issuefile in glob.glob(u"issues/*/#%s-*.md" % (number,)):
@@ -68,5 +78,5 @@ def dumpIssues(state="open", repo=u"MinYi", user=u"LeslieZhu"):
     
 
 if __name__ == "__main__":
-    sys.exit(dumpIssues())
+    sys.exit(dumpIssues("open","MinYi","LeslieZhu"))
 
