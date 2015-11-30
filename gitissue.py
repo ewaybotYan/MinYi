@@ -2,7 +2,7 @@
 #-*- coding: utf-8 -*-
 
 '''
-dumpissue.py  --- 用于备份issues
+gitissue.py  --- 基于GitHub Issues功能博客的备份工具
 
 使用GitHub的API，比如:
 
