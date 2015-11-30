@@ -11,7 +11,7 @@ $ curl  https://api.github.com/repos/LeslieZhu/MinYi/issues
 以JSON格式获取项目的issue状态，进而对issue做其它操作。
 '''
 
-import sys,os
+import sys,os,time
 import urllib2
 import json
 import glob,subprocess
@@ -46,8 +46,25 @@ def dumpIssues(state="open", repo=u"MinYi", user=u"LeslieZhu"):
         
         print filename
         cout = open(filename,"w")
-        cout.write(content.encode("utf-8"))
+        cout.write(content.encode("utf-8") + '\n')
         cout.close()
+
+
+        milestone = issue[u"milestone"]
+        milestone_num = milestone[u"number"]
+        milestone_name = milestone[u"title"]
+        
+        if milestone.has_key(u"description"):
+            milestone_description = milestone[u"description"]
+        else:
+            milestone_description = u""
+
+        milestone_file = u"milestones/#%s-%s.md" % (milestone_num,milestone_name,)
+        if not os.path.exists(milestone_file) or (time.time() - os.stat(milestone_file).st_ctime) > 120:
+            print milestone_file
+            cout = open(milestone_file,"w")
+            cout.write(milestone_description.encode("utf-8") + '\n')
+            cout.close()
     
 
 if __name__ == "__main__":
