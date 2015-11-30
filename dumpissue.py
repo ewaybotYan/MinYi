@@ -14,6 +14,7 @@ $ curl  https://api.github.com/repos/LeslieZhu/MinYi/issues
 import sys,os
 import urllib2
 import json
+import glob,subprocess
 
 
 def dumpIssues(state="open", repo=u"MinYi", user=u"LeslieZhu"):
@@ -34,6 +35,13 @@ def dumpIssues(state="open", repo=u"MinYi", user=u"LeslieZhu"):
 
         created_at = issue[u"created_at"][:10]
         filename = u"%s/#%s-%s-%s.md" % (label_folder,number,created_at,title,)
+
+        # 当标题修改了，导致文件名也修改，防止一个issue保存了多个文件
+        for issuefile in glob.glob(u"issues/*/#%s-*.md" % (number,)):
+            if issuefile != filename:
+                subprocess.Popen(["git","mv","-f",issuefile,filename])
+
+        
         content = issue[u"body"]
         
         print filename
