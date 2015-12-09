@@ -27,7 +27,7 @@ def gitIssues(state="open", repo=u"MinYi", user=u"LeslieZhu"):
     if state != "":
         content = urllib2.urlopen(u"https://api.github.com/repos/%s/%s/issues?state=%s" % (user,repo,state,))
     else:
-        content = urllib2.urlopen(u"https://api.github.com/repos/%s/%s/issues" % (user,repo,))
+        content = urllib2.urlopen(u"https://api.github.com/repos/%s/%s/issues?state=all" % (user,repo,))
         
     issues = json.loads(content.read())
     
