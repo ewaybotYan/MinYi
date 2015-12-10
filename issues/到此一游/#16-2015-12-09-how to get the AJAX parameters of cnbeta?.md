@@ -40,3 +40,20 @@
         dataType:"jsonp",
 
 依旧没有什么头绪，请赐教！
+
+
+# 评论
+
+
+LeslieZhu on 2015-12-10T02:52:25Z:
+
+ http://blog.chedushi.com/archives/8645 你看看这个对你有没有帮助 
+
+LeslieZhu on 2015-12-10T02:54:31Z:
+
+ 还有这个 http://www.pythonclub.org/python-network-application/observer-spider  
+
+acoada on 2015-12-10T02:59:32Z:
+
+ 这两篇都看过的，都没有讲怎么获取 AJAX 参数。 
+

@@ -79,10 +79,16 @@ def dumpIssues(issue):
 
         
     content = issue[u"body"].encode("utf-8")
+
+    if issue.has_key(u"comments_url"):
+        commit_doc = dumpCommits(issue[u"comments_url"]).encode("utf-8")
+    else:
+        commit_doc = u""
     
     print filename
     cout = open(filename,"w")
     cout.write(content + '\n')
+    if commit_doc != "": cout.write(commit_doc + '\n')        
     cout.close()
 
 
@@ -123,8 +129,30 @@ def dumpMilestones(milestone):
         cout = open(milestone_file,"w")
         cout.write(milestone_description + '\n')
         cout.close()
-    
 
+def dumpCommits(commits_url):
+    """
+    {
+    "user": {
+      "login": "acoada",
+    },
+    "created_at": "2015-12-10T02:59:32Z",
+    "body": ""
+    }
+    """
+    commits_doc = u"\n\n# 评论\n\n"
+
+    
+    content = urllib2.urlopen(commits_url)
+    commits = json.loads(content.read())
+
+    if not commits: return u""
+
+    for commit in commits:
+        commits_doc += "\n%s on %s:\n\n %s \n" % (commit["user"]["login"], commit["created_at"], commit["body"],)
+
+    return commits_doc
+        
 if __name__ == "__main__":
     sys.exit(gitIssues("open","MinYi","LeslieZhu"))
 
