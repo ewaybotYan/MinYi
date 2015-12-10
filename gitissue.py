@@ -77,7 +77,8 @@ def dumpIssues(issue):
         if issuefile != filename:
             subprocess.Popen(["git","mv","-f",issuefile,filename])
 
-        
+
+    author = "%s on %s:\n\n" % (issue[u"user"][u"login"],created_at,)
     content = issue[u"body"].encode("utf-8")
 
     if issue.has_key(u"comments_url"):
@@ -87,6 +88,7 @@ def dumpIssues(issue):
     
     print filename
     cout = open(filename,"w")
+    cout.write(author + '\n')
     cout.write(content + '\n')
     if commit_doc != "": cout.write(commit_doc + '\n')        
     cout.close()

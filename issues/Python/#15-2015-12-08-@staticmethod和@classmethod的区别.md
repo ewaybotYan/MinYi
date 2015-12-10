@@ -1,3 +1,6 @@
+LeslieZhu on 2015-12-08:
+
+
 - 原文链接: [what-is-the-difference-between-staticmethod-and-classmethod-in-python](http://stackoverflow.com/questions/136097/what-is-the-difference-between-staticmethod-and-classmethod-in-python)
 
 这是**StackOverFlow**上一个讨论，觉得很不错，翻译整理如下。
