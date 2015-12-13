@@ -78,7 +78,7 @@ def dumpIssues(issue):
             subprocess.Popen(["git","mv","-f",issuefile,filename])
 
 
-    author = "%s on %s:\n\n" % (issue[u"user"][u"login"],created_at,)
+    author = "[%s](%s) on %s:\n\n" % (issue[u"user"][u"login"],issue[u"user"][u"html_url"],created_at,)
     content = issue[u"body"].encode("utf-8")
 
     if issue.has_key(u"comments_url"):
@@ -151,7 +151,7 @@ def dumpCommits(commits_url):
     if not commits: return u""
 
     for commit in commits:
-        commits_doc += "\n%s on %s:\n\n %s \n" % (commit["user"]["login"], commit["created_at"], commit["body"],)
+        commits_doc += "\n[%s](%s) on %s:\n\n %s \n" % (commit[u"user"][u"login"],commit[u"user"][u"html_url"], commit["created_at"], commit["body"],)
 
     return commits_doc
         

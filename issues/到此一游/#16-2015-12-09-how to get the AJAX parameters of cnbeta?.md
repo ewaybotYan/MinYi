@@ -1,4 +1,4 @@
-acoada on 2015-12-09:
+[acoada](https://github.com/acoada) on 2015-12-09:
 
 
 [cnbeta](http://www.cnbeta.com)页面是动态刷新的。爬取其主页需要获取真实的`URL`，下拉页面至底部时查看`firebug`可以发现一个`XHR`，具体是：
@@ -48,19 +48,19 @@ acoada on 2015-12-09:
 # 评论
 
 
-LeslieZhu on 2015-12-10T02:52:25Z:
+[LeslieZhu](https://github.com/LeslieZhu) on 2015-12-10T02:52:25Z:
 
  http://blog.chedushi.com/archives/8645 你看看这个对你有没有帮助 
 
-LeslieZhu on 2015-12-10T02:54:31Z:
+[LeslieZhu](https://github.com/LeslieZhu) on 2015-12-10T02:54:31Z:
 
  还有这个 http://www.pythonclub.org/python-network-application/observer-spider  
 
-acoada on 2015-12-10T02:59:32Z:
+[acoada](https://github.com/acoada) on 2015-12-10T02:59:32Z:
 
  这两篇都看过的，都没有讲怎么获取 AJAX 参数。 
 
-LeslieZhu on 2015-12-10T04:26:06Z:
+[LeslieZhu](https://github.com/LeslieZhu) on 2015-12-10T04:26:06Z:
 
  
 我照着你的方法，用Firebug找到这个json请求，拷贝为cURL的形式，如下:

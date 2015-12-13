@@ -1,4 +1,4 @@
-LeslieZhu on 2015-11-28:
+[LeslieZhu](https://github.com/LeslieZhu) on 2015-11-28:
 
 
 # 笔记: How To Tango With Django 1.7

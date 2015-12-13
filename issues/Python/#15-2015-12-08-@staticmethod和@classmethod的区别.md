@@ -1,4 +1,4 @@
-LeslieZhu on 2015-12-08:
+[LeslieZhu](https://github.com/LeslieZhu) on 2015-12-08:
 
 
 - 原文链接: [what-is-the-difference-between-staticmethod-and-classmethod-in-python](http://stackoverflow.com/questions/136097/what-is-the-difference-between-staticmethod-and-classmethod-in-python)
@@ -130,11 +130,11 @@ Python不支持类似C++的名字空间，通过@staticmethod仅仅是将函数�
 # 评论
 
 
-MestreLion on 2015-12-08T06:33:43Z:
+[MestreLion](https://github.com/MestreLion) on 2015-12-08T06:33:43Z:
 
  What? 
 
-LeslieZhu on 2015-12-08T07:39:46Z:
+[LeslieZhu](https://github.com/LeslieZhu) on 2015-12-08T07:39:46Z:
 
  Oops... I found [what-is-the-difference-between-staticmethod-and-classmethod-in-python](http://stackoverflow.com/questions/136097/what-is-the-difference-between-staticmethod-and-classmethod-in-python) on stackoverflow, and I translated some answers by keep the author ,like `@someone: balabala`. But i forgot to add quote character before and after the `@someone`, so the GitHub issues notify functional may auto send a message to you, i'm so sorry for that. 
 

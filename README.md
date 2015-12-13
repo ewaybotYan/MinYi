@@ -20,7 +20,7 @@
 
 - **[所有标签](https://github.com/LeslieZhu/MinYi/labels)**
 - **[所有里程碑](https://github.com/LeslieZhu/MinYi/milestones)**
-- **[所有博文](https://github.com/LeslieZhu/MinYi/issues)**
+- **[所有博文](https://github.com/LeslieZhu/MinYi/issues?q=is:issue)**
 
 ## 留言、评论
 
@@ -40,4 +40,3 @@
 ## 版权说明
 
 未经允许，禁止转载！
-
