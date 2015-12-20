@@ -154,7 +154,12 @@ def dumpCommits(commits_url):
         commits_doc += "\n[%s](%s) on %s:\n\n %s \n" % (commit[u"user"][u"login"],commit[u"user"][u"html_url"], commit["created_at"], commit["body"],)
 
     return commits_doc
+
+def main(args):
+    basedir = os.path.abspath(os.path.dirname(__file__))
+    os.chdir(basedir)
+    gitIssues("open","MinYi","LeslieZhu")
         
 if __name__ == "__main__":
-    sys.exit(gitIssues("open","MinYi","LeslieZhu"))
+    sys.exit(main(sys.argv))
 
