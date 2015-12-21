@@ -2,6 +2,10 @@
 
 『士不可以不弘毅，任重而道远！』
 
+# 说明
+
+ [欢迎访问此博客(敏毅)!](https://github.com/LeslieZhu/MinYi/issues/1)
+
 # 标签
 
 - [All (27篇)](https://github.com/LeslieZhu/MinYi/labels)

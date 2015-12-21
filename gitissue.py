@@ -184,6 +184,7 @@ def summary(label_data,issues_data):
     
     _header = "# 敏毅\n\n"
     _info   = "『士不可以不弘毅，任重而道远！』\n\n"
+    _about  = "# 说明\n\n [欢迎访问此博客(敏毅)!](https://github.com/LeslieZhu/MinYi/issues/1)\n\n"
     _label_header = "# 标签\n\n"
     _table_header = "编号 | 标签 | 文章\n-----|------|----\n"
     _copyright = "# 版权说明\n\n未经允许，禁止转载！\n\n"
@@ -191,6 +192,7 @@ def summary(label_data,issues_data):
     with open("README.md","w") as cout:
         cout.write(_header)
         cout.write(_info)
+        cout.write(_about)
 
         cout.write(_label_header)
         cout.write("- [All (%s篇)](https://github.com/LeslieZhu/MinYi/labels)\n" % (sum(label_data[x] for x in label_data),))
