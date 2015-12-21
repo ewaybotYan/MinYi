@@ -155,10 +155,88 @@ def dumpCommits(commits_url):
 
     return commits_doc
 
+def analyse():
+    """ Analyse all issues and generate a SUMMARY.md file"""
+    
+    issues_data = dict()
+    label_data = dict()
+    
+    for issue in glob.glob("issues/*/*.md"):
+        issuedir,label,issuename = issue.strip().split('/')
+
+        issuename = issuename.split('-')
+        issueNum,created_at,issueTitle = issuename[0],issuename[1:4],'-'.join(issuename[4:])
+
+        year,month,day = created_at
+
+        if label not in label_data:
+            label_data[label] = 1
+        else:
+            label_data[label] += 1
+            
+        if not issues_data.has_key(year): issues_data[year] = {}
+        if not issues_data[year].has_key(month): issues_data[year][month] = []
+        issues_data[year][month].append([issueNum,label,issueTitle])
+
+    return summary(label_data,issues_data)
+
+def summary(label_data,issues_data):
+    
+    _header = "# 敏毅\n\n"
+    _info   = "『士不可以不弘毅，任重而道远！』\n\n"
+    _label_header = "# 标签\n\n"
+    _table_header = "编号 | 标签 | 文章\n-----|------|----\n"
+    _copyright = "# 版权说明\n\n未经允许，禁止转载！\n\n"
+    
+    with open("README.md","w") as cout:
+        cout.write(_header)
+        cout.write(_info)
+
+        cout.write(_label_header)
+        cout.write("- [All (%s篇)](https://github.com/LeslieZhu/MinYi/labels)\n" % (sum(label_data[x] for x in label_data),))
+        for label in sorted(label_data):
+            cout.write("- [%s (%s篇)](https://github.com/LeslieZhu/MinYi/labels/%s)\n" % (label,label_data[label],label,))
+        cout.write('\n')
+
+        for year in sorted(issues_data.keys(),reverse=True):
+            cout.write("# %s年 (%s篇)\n\n" % (year,sum(label_data[x] for x in label_data),))
+            for month in sorted(issues_data[year].keys(),reverse=True):
+                cout.write("## %s年%s月 (%s篇)\n\n" % (year,month,len(issues_data[year][month]),))
+                cout.write(_table_header)
+                for issue in sorted(issues_data[year][month],key=lambda x: int(x[0][1:]),reverse=True):
+                    issue_num,issue_label,issue_title = issue
+                    
+                    issue_num_url = "[%s](https://github.com/LeslieZhu/MinYi/issues/%s)" % (issue_num,issue_num[1:],)
+                    issue_label_url = "[%s](https://github.com/LeslieZhu/MinYi/labels/%s)" % (issue_label,issue_label,)
+                    issue_title_url = "[%s](https://github.com/LeslieZhu/MinYi/issues/%s)" % (issue_title.replace(".md",""),issue_num[1:],)
+                    
+                    cout.write('|'.join([issue_num_url,issue_label_url,issue_title_url]) + '\n')
+                cout.write("\n")
+            cout.write('\n')
+        cout.write('\n')
+
+        cout.write(_copyright)
+        cout.write('\n')
+                
+        
+
+                                    
+        
 def main(args):
     basedir = os.path.abspath(os.path.dirname(__file__))
     os.chdir(basedir)
-    gitIssues("open","MinYi","LeslieZhu")
+    if "update" in args:
+        gitIssues("open","MinYi","LeslieZhu")
+        analyse()
+    elif "analyse" in args:
+        analyse()
+    else:
+        print "Usage: %s [options]" % args[0]
+        print
+        print "Options:"
+        print "\tupdate\t\tupdate new issues"
+        print "\tanalyse\t\tanalyse the blog based on issues, generate SUMMARY.md"
+        return -1
         
 if __name__ == "__main__":
     sys.exit(main(sys.argv))
