@@ -184,7 +184,9 @@ def summary(label_data,issues_data):
     
     _header = "# 敏毅\n\n"
     _info   = "『士不可以不弘毅，任重而道远！』\n\n"
+    
     _about  = "# 说明\n\n [欢迎访问此博客(敏毅)!](https://github.com/LeslieZhu/MinYi/issues/1)\n\n"
+    
     _label_header = "# 标签\n\n"
     _table_header = "编号 | 标签 | 文章\n-----|------|----\n"
     _copyright = "# 版权说明\n\n未经允许，禁止转载！\n\n"
@@ -195,9 +197,9 @@ def summary(label_data,issues_data):
         cout.write(_about)
 
         cout.write(_label_header)
-        cout.write("- [All (%s篇)](https://github.com/LeslieZhu/MinYi/labels)\n" % (sum(label_data[x] for x in label_data),))
+        cout.write("- [All (%s篇)](https://github.com/LeslieZhu/MinYi/issues?q=is:issue)\n" % (sum(label_data[x] for x in label_data),))
         for label in sorted(label_data):
-            cout.write("- [%s (%s篇)](https://github.com/LeslieZhu/MinYi/labels/%s)\n" % (label,label_data[label],label,))
+            cout.write("- [%s (%s篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:%s)\n" % (label,label_data[label],label,))
         cout.write('\n')
 
         for year in sorted(issues_data.keys(),reverse=True):
@@ -209,7 +211,7 @@ def summary(label_data,issues_data):
                     issue_num,issue_label,issue_title = issue
                     
                     issue_num_url = "[%s](https://github.com/LeslieZhu/MinYi/issues/%s)" % (issue_num,issue_num[1:],)
-                    issue_label_url = "[%s](https://github.com/LeslieZhu/MinYi/labels/%s)" % (issue_label,issue_label,)
+                    issue_label_url = "[%s](https://github.com/LeslieZhu/MinYi/issues?q=label:%s)" % (issue_label,issue_label,)
                     issue_title_url = "[%s](https://github.com/LeslieZhu/MinYi/issues/%s)" % (issue_title.replace(".md",""),issue_num[1:],)
                     
                     cout.write('|'.join([issue_num_url,issue_label_url,issue_title_url]) + '\n')
