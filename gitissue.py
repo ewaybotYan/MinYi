@@ -13,24 +13,29 @@ $ curl  https://api.github.com/repos/LeslieZhu/MinYi/issues
 
 import sys,os,time
 import urllib2
-import json
+import json,re
 import glob,subprocess
 
 __author__ = "Leslie Zhu (pythonisland@gmail.com)"
 __version__ = "1.0.0"
 
-def gitIssues(state="open", repo=u"MinYi", user=u"LeslieZhu"):
+def gitIssues(state="open", issuenum = "", repo=u"MinYi", user=u"LeslieZhu"):
     """
     根据GitHub用户名、项目名、Issue状态条件，批量备份Issues.
     """
-    
-    if state != "":
+
+    if issuenum != "":
+        issues = []
+        for issueNo in re.split(",|;|:| ",issuenum):
+            content = urllib2.urlopen(u"https://api.github.com/repos/%s/%s/issues/%s" % (user,repo,issueNo,))
+            issues.append(json.loads(content.read()))
+    elif state != "":
         content = urllib2.urlopen(u"https://api.github.com/repos/%s/%s/issues?state=%s" % (user,repo,state,))
+        issues = json.loads(content.read())
     else:
         content = urllib2.urlopen(u"https://api.github.com/repos/%s/%s/issues?state=all" % (user,repo,))
+        issues = json.loads(content.read())
         
-    issues = json.loads(content.read())
-    
     for issue in issues:
         dumpIssues(issue)
         
@@ -222,25 +227,32 @@ def summary(label_data,issues_data):
         cout.write(_copyright)
         cout.write('\n')
                 
-        
-
-                                    
-        
 def main(args):
     basedir = os.path.abspath(os.path.dirname(__file__))
     os.chdir(basedir)
-    if "update" in args:
-        gitIssues("open","MinYi","LeslieZhu")
+
+    from optparse import OptionParser
+    
+    parser = OptionParser()
+    
+    parser.add_option('-u', '--update', dest = 'update', action = 'store_true', default = False, help = 'update all issues')
+    parser.add_option('-a', '--analyse', dest = 'analyse', action = 'store_true', default = False, help = 'analyse all issues')
+    
+    parser.add_option('-i', '--issue', dest = 'issue', type = 'string', default = '', help = 'issue num')
+    parser.add_option('-s', '--state',  dest = 'state', type = 'string', default = 'open', help = 'issue state(open)')
+    
+    parser.add_option('-r', '--repo', dest = 'repo', type = 'string', default = 'MinYi', help = 'GitHub repo(MinYi)')
+    parser.add_option('-n', '--name', dest = 'name', type = 'string', default = 'LeslieZhu', help = 'GitHub username(LeslieZhu)')
+
+    (opts, args) = parser.parse_args()
+    print opts,args
+
+    if opts.update:
+        gitIssues(opts.state,opts.issue,opts.repo,opts.name)
+
+    if opts.analyse:
         analyse()
-    elif "analyse" in args:
-        analyse()
-    else:
-        print "Usage: %s [options]" % args[0]
-        print
-        print "Options:"
-        print "\tupdate\t\tupdate new issues"
-        print "\tanalyse\t\tanalyse the blog based on issues, generate SUMMARY.md"
-        return -1
+
         
 if __name__ == "__main__":
     sys.exit(main(sys.argv))
