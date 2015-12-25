@@ -86,7 +86,7 @@ def dumpIssues(issue):
     else:
         commit_doc = u""
     
-    print filename
+    print filename.encode("utf-8")
     cout = open(filename,"w")
     cout.write(author + '\n')
     cout.write(content + '\n')
