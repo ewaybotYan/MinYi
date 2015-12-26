@@ -29,11 +29,8 @@ def gitIssues(state="open", issuenum = "", repo=u"MinYi", user=u"LeslieZhu"):
         for issueNo in re.split(",|;|:| ",issuenum):
             content = urllib2.urlopen(u"https://api.github.com/repos/%s/%s/issues/%s" % (user,repo,issueNo,))
             issues.append(json.loads(content.read()))
-    elif state != "":
-        content = urllib2.urlopen(u"https://api.github.com/repos/%s/%s/issues?state=%s" % (user,repo,state,))
-        issues = json.loads(content.read())
     else:
-        content = urllib2.urlopen(u"https://api.github.com/repos/%s/%s/issues?state=all" % (user,repo,))
+        content = urllib2.urlopen(u"https://api.github.com/repos/%s/%s/issues?state=%s" % (user,repo,state,))
         issues = json.loads(content.read())
         
     for issue in issues:
@@ -239,7 +236,7 @@ def main(args):
     parser.add_option('-a', '--analyse', dest = 'analyse', action = 'store_true', default = False, help = 'analyse all issues')
     
     parser.add_option('-i', '--issue', dest = 'issue', type = 'string', default = '', help = 'issue num')
-    parser.add_option('-s', '--state',  dest = 'state', type = 'string', default = 'open', help = 'issue state(open)')
+    parser.add_option('-s', '--state',  dest = 'state', type = 'string', default = 'open', help = 'issue state(open,closed,all)')
     
     parser.add_option('-r', '--repo', dest = 'repo', type = 'string', default = 'MinYi', help = 'GitHub repo(MinYi)')
     parser.add_option('-n', '--name', dest = 'name', type = 'string', default = 'LeslieZhu', help = 'GitHub username(LeslieZhu)')

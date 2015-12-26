@@ -8,25 +8,30 @@
 
 # 标签
 
-- [All (27篇)](https://github.com/LeslieZhu/MinYi/issues?q=is:issue)
+- [All (32篇)](https://github.com/LeslieZhu/MinYi/issues?q=is:issue)
 - [Go (3篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:Go)
 - [Linux (1篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:Linux)
 - [Node (1篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:Node)
-- [Python与黑客 (10篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:Python与黑客)
-- [Swift (1篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:Swift)
+- [Python与黑客 (11篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:Python与黑客)
+- [Swift (3篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:Swift)
 - [iOS (1篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:iOS)
 - [到此一游 (2篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:到此一游)
 - [博客 (1篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:博客)
 - [建筑 (1篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:建筑)
 - [英文翻译 (5篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:英文翻译)
-- [长安遍地是黄金 (1篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:长安遍地是黄金)
+- [长安遍地是黄金 (3篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:长安遍地是黄金)
 
-# 2015年 (27篇)
+# 2015年 (32篇)
 
-## 2015年12月 (19篇)
+## 2015年12月 (24篇)
 
 编号 | 标签 | 文章
 -----|------|----
+[#32](https://github.com/LeslieZhu/MinYi/issues/32)|[长安遍地是黄金](https://github.com/LeslieZhu/MinYi/issues?q=label:长安遍地是黄金)|[西安碑林博物馆](https://github.com/LeslieZhu/MinYi/issues/32)
+[#31](https://github.com/LeslieZhu/MinYi/issues/31)|[Swift](https://github.com/LeslieZhu/MinYi/issues?q=label:Swift)|[初识Swift](https://github.com/LeslieZhu/MinYi/issues/31)
+[#30](https://github.com/LeslieZhu/MinYi/issues/30)|[Swift](https://github.com/LeslieZhu/MinYi/issues?q=label:Swift)|[用swift开发OS X程序](https://github.com/LeslieZhu/MinYi/issues/30)
+[#29](https://github.com/LeslieZhu/MinYi/issues/29)|[Python与黑客](https://github.com/LeslieZhu/MinYi/issues?q=label:Python与黑客)|[python黑客教程翻译、整理](https://github.com/LeslieZhu/MinYi/issues/29)
+[#28](https://github.com/LeslieZhu/MinYi/issues/28)|[长安遍地是黄金](https://github.com/LeslieZhu/MinYi/issues?q=label:长安遍地是黄金)|[简单了解一下八卦](https://github.com/LeslieZhu/MinYi/issues/28)
 [#27](https://github.com/LeslieZhu/MinYi/issues/27)|[Python与黑客](https://github.com/LeslieZhu/MinYi/issues?q=label:Python与黑客)|[网络攻防平台](https://github.com/LeslieZhu/MinYi/issues/27)
 [#26](https://github.com/LeslieZhu/MinYi/issues/26)|[Swift](https://github.com/LeslieZhu/MinYi/issues?q=label:Swift)|[Swift：语法概览](https://github.com/LeslieZhu/MinYi/issues/26)
 [#25](https://github.com/LeslieZhu/MinYi/issues/25)|[Node](https://github.com/LeslieZhu/MinYi/issues?q=label:Node)|[建立Node.js开发环境，使用Gitbook撰写书籍](https://github.com/LeslieZhu/MinYi/issues/25)
