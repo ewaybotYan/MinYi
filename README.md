@@ -27,7 +27,7 @@
 
 编号 | 标签 | 文章
 -----|------|----
-[#32](https://github.com/LeslieZhu/MinYi/issues/32)|[长安遍地是黄金](https://github.com/LeslieZhu/MinYi/issues?q=label:长安遍地是黄金)|[西安碑林博物馆](https://github.com/LeslieZhu/MinYi/issues/32)
+[#32](https://github.com/LeslieZhu/MinYi/issues/32)|[长安遍地是黄金](https://github.com/LeslieZhu/MinYi/issues?q=label:长安遍地是黄金)|[游明城墙与碑林](https://github.com/LeslieZhu/MinYi/issues/32)
 [#31](https://github.com/LeslieZhu/MinYi/issues/31)|[Swift](https://github.com/LeslieZhu/MinYi/issues?q=label:Swift)|[初识Swift](https://github.com/LeslieZhu/MinYi/issues/31)
 [#30](https://github.com/LeslieZhu/MinYi/issues/30)|[Swift](https://github.com/LeslieZhu/MinYi/issues?q=label:Swift)|[用swift开发OS X程序](https://github.com/LeslieZhu/MinYi/issues/30)
 [#29](https://github.com/LeslieZhu/MinYi/issues/29)|[Python与黑客](https://github.com/LeslieZhu/MinYi/issues?q=label:Python与黑客)|[python黑客教程翻译、整理](https://github.com/LeslieZhu/MinYi/issues/29)
