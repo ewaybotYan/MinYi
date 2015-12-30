@@ -114,8 +114,7 @@ def toc(issue=""):
             issue_re = re.search("(#*).*name=\'(.*)\'>(.*)</a>",line)
             if issue_re:
                 level,tag,name  = issue_re.groups()
-                #print "%s* [%s](#%s)" % (' ' * (len(level) - 1),name,tag,)
-                toc_.append("%s* %s" % (' ' * (len(level) - 1),name,))
+                toc_.append("%s* %s" % ('  ' * (len(level)-1),name,))
 
     toc_.append("")
     return toc_
