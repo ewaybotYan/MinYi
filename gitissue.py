@@ -19,6 +19,84 @@ import glob,subprocess
 __author__ = "Leslie Zhu (pythonisland@gmail.com)"
 __version__ = "1.0.0"
 
+def add_link(issues=""):
+    """
+    Add header link in issue.
+
+    A issue writed by Markdown like this:
+
+    # header1
+    ## header2
+
+    And this function update it into:
+
+    # <a name="header1">header1</a>
+    ## <a name="header2">header2</a>
+
+    Thus, use function `toc` can display it's toc
+    """
+    for issue in re.split(",|;|:| ",issues):
+        issue_file = glob.glob("issues/*/#%s-*.md" % (issue,))
+        if not issue_file: continue
+
+        in_issue_file = issue_file[0]
+        tmp_issue_file = in_issue_file + ".tmp"
+        print in_issue_file
+        
+        with open(tmp_issue_file,"w") as cout:
+            with open(in_issue_file,"r") as cin:
+                i = 0
+                for line in cin:
+                    line = line.strip('\r\n')
+                    
+                    if line.startswith("#") and not re.search("^(#*).*name=\'(.*)\'>(.*)</a>",line):
+                        level,name = re.search("(#*) *(.*)",line).groups()
+                        i += 1
+                        cout.write("%s <a name='%s'>%s</a>" % (level,i,name,) + '\r\n')
+                        cout.write("%s:dart:[回到目录](#toc)" % ("&nbsp;"*140,) + '\r\n')
+                    else:
+                        cout.write(line + '\r\n')
+
+        # save new issue
+        os.rename(tmp_issue_file,in_issue_file)
+        toc(issues)
+
+def toc(issues=""):
+    """ 
+    Generate issue page's table-of-contents information
+
+    On GitHub issues, it supports this type tag:
+
+    # <h1 id="example">Example</h1>
+
+    And can use this tag like this:
+
+    * [Example](#example)
+
+    So, add a `id` on each header and use the `id` as link on toc
+    """
+
+    for issue in re.split(",|;|:| ",issues):
+        issue_file = glob.glob("issues/*/#%s-*.md" % (issue,))
+        if not issue_file: continue
+        print issue,issue_file[0]
+
+        print
+        print "<a name='toc'>**目录:**</a>"
+        print
+        
+        with open(issue_file[0],"r") as cin:
+            for line in cin:
+                if not line.startswith("#"): continue
+                issue_re = re.search("(#*).*name=\'(.*)\'>(.*)</a>",line)
+                if issue_re:
+                    level,tag,name  = issue_re.groups()
+                    print "%s* [%s](#%s)" % (' ' * (len(level) - 1),name,tag,)
+
+        print
+        print
+        
+        
 def gitIssues(state="open", issuenum = "", repo=u"MinYi", user=u"LeslieZhu"):
     """
     根据GitHub用户名、项目名、Issue状态条件，批量备份Issues.
@@ -234,6 +312,8 @@ def main(args):
     
     parser.add_option('-u', '--update', dest = 'update', action = 'store_true', default = False, help = 'update all issues')
     parser.add_option('-a', '--analyse', dest = 'analyse', action = 'store_true', default = False, help = 'analyse all issues')
+    parser.add_option('-t', '--toc', dest = 'toc', action = 'store_true', default = False, help = 'generate toc of issues')
+    parser.add_option('-l', '--link', dest = 'link', action = 'store_true', default = False, help = 'add header link in issue')
     
     parser.add_option('-i', '--issue', dest = 'issue', type = 'string', default = '', help = 'issue num')
     parser.add_option('-s', '--state',  dest = 'state', type = 'string', default = 'open', help = 'issue state(open,closed,all)')
@@ -250,6 +330,11 @@ def main(args):
     if opts.analyse:
         analyse()
 
+    if opts.toc and opts.issue:
+        toc(opts.issue)
+
+    if opts.link and opts.issue:
+        add_link(opts.issue)
         
 if __name__ == "__main__":
     sys.exit(main(sys.argv))
