@@ -19,7 +19,7 @@ import glob,subprocess
 __author__ = "Leslie Zhu (pythonisland@gmail.com)"
 __version__ = "1.0.0"
 
-def add_link(issues=""):
+def add_link(issue=""):
     """
     Add header link in issue.
 
@@ -35,37 +35,38 @@ def add_link(issues=""):
 
     Thus, use function `toc` can display it's toc
     """
-    for issue in re.split(",|;|:| ",issues):
-        issue_file = glob.glob("issues/*/#%s-*.md" % (issue,))
-        if not issue_file: continue
 
-        in_issue_file = issue_file[0]
-        tmp_issue_file = in_issue_file + ".tmp"
-        print in_issue_file
-        
-        with open(tmp_issue_file,"w") as cout:
-            with open(in_issue_file,"r") as cin:
-                i = 0
-                for line in cin:
-                    line = line.strip('\r\n')
-                    
-                    if line.startswith("#"):
-                        i += 1
-                        if re.search("^(#*).*name=\'(.*)\'>(.*)</a>",line):
-                            level,tag,name = re.search("^(#*).*name=\'(.*)\'>\[(.*)\].*</a>",line).groups()
-                            cout.write("%s <a name='%s'>[%s](#%s)</a>" % (level,i,name,i) + '\r\n')
-                        else:
-                            level,name = re.search("(#*) *(.*)",line).groups()
-                            cout.write("%s <a name='%s'>[%s](#%s)</a>" % (level,i,name,i) + '\r\n')
-                            cout.write("%s:dart:[回到目录](#toc)" % ("&nbsp;"*140,) + '\r\n')
-                    else:
-                        cout.write(line + '\r\n')
+    issue_file = glob.glob("issues/*/#%s-*.md" % (issue,))
+    if not issue_file: return None
+    
+    in_issue_file = issue_file[0]
+    print in_issue_file
 
-        # save new issue
-        os.rename(tmp_issue_file,in_issue_file)
-        toc(issues)
+    contents = []
+    toc_ = toc(issue)
+    i = 0
+    
+    with open(in_issue_file,"r") as cin:
+        for line in cin:
+            line = line.strip('\n')
+            if line.startswith("#"):
+                i += 1
+                if re.search("^(#*).*name=\'(.*)\'>(.*)</a>",line):
+                    level,tag,name = re.search("^(#*).*name=\'(.*)\'>\[(.*)\].*</a>",line).groups()
+                    contents.append("%s <a name='%s'>[%s](#%s)</a>" % (level,i,name,i))
+                else:
+                    level,name = re.search("(#*) *(.*)",line).groups()
+                    contents.append("%s <a name='%s'>[%s](#%s)</a>" % (level,i,name,i))
+                    contents.append("%s:dart:[回到目录](#toc)" % ("&nbsp;"*140,))
+            else:
+                contents.append(line)
+                
+    # save new issue
+    with open(in_issue_file,"w") as cout:
+        cout.write('\n'.join(toc_) + '\n')
+        cout.write('\n'.join(contents) + '\n')
 
-def toc(issues=""):
+def toc(issue=""):
     """ 
     Generate issue page's table-of-contents information
 
@@ -80,26 +81,27 @@ def toc(issues=""):
     So, add a `id` on each header and use the `id` as link on toc
     """
 
-    for issue in re.split(",|;|:| ",issues):
-        issue_file = glob.glob("issues/*/#%s-*.md" % (issue,))
-        if not issue_file: continue
-        print issue,issue_file[0]
+    toc_ = []
+    
+    issue_file = glob.glob("issues/*/#%s-*.md" % (issue,))
+    if not issue_file: return toc_
 
-        print
-        print "<a name='toc'>**目录:**</a>"
-        print
-        
-        with open(issue_file[0],"r") as cin:
-            for line in cin:
-                if not line.startswith("#"): continue
-                issue_re = re.search("(#*).*name=\'(.*)\'>(.*)</a>",line)
-                if issue_re:
-                    level,tag,name  = issue_re.groups()
-                    #print "%s* [%s](#%s)" % (' ' * (len(level) - 1),name,tag,)
-                    print "%s* %s" % (' ' * (len(level) - 1),name,)
+    
 
-        print
-        print
+    toc_.append("")
+    toc_.append("<a name='toc'>**目录:**</a>")
+    toc_.append("")
+    
+    with open(issue_file[0],"r") as cin:
+        for line in cin:
+            if not line.startswith("#"): continue
+            issue_re = re.search("(#*).*name=\'(.*)\'>(.*)</a>",line)
+            if issue_re:
+                level,tag,name  = issue_re.groups()
+                #print "%s* [%s](#%s)" % (' ' * (len(level) - 1),name,tag,)
+                toc_.append("%s* %s" % (' ' * (len(level) - 1),name,))
+
+    return toc_
         
         
 def gitIssues(state="open", issuenum = "", repo=u"MinYi", user=u"LeslieZhu"):
@@ -336,7 +338,7 @@ def main(args):
         analyse()
 
     if opts.toc and opts.issue:
-        toc(opts.issue)
+        print '\n'.join(toc(opts.issue))
 
     if opts.link and opts.issue:
         add_link(opts.issue)
