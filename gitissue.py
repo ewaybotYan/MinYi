@@ -45,11 +45,24 @@ def add_link(issue=""):
     contents = []
     toc_ = toc(issue)
     i = 0
+    has_toc = False
     
     with open(in_issue_file,"r") as cin:
+        block_state = False
         for line in cin:
-            line = line.strip('\n')
-            if line.startswith("#"):
+            line = line.rstrip()
+
+            if "<a name='toc'>**目录:**</a>" in line:
+                has_toc = True
+            
+            if line.count("```") == 1 and not block_state:
+                block_state = True
+            elif line.count("```") == 1 and block_state:
+                block_state = False
+            else:
+                pass
+
+            if line.startswith("#") and not block_state:
                 i += 1
                 if re.search("^(#*).*name=\'(.*)\'>(.*)</a>",line):
                     level,tag,name = re.search("^(#*).*name=\'(.*)\'>\[(.*)\].*</a>",line).groups()
@@ -63,7 +76,10 @@ def add_link(issue=""):
                 
     # save new issue
     with open(in_issue_file,"w") as cout:
-        cout.write('\n'.join(toc_) + '\n')
+        print '\n'.join(toc_)
+        if len(toc_) > 4 and not has_toc:
+            cout.write('\n'.join(toc_) + '\n')
+
         cout.write('\n'.join(contents) + '\n')
 
 def toc(issue=""):
@@ -101,6 +117,7 @@ def toc(issue=""):
                 #print "%s* [%s](#%s)" % (' ' * (len(level) - 1),name,tag,)
                 toc_.append("%s* %s" % (' ' * (len(level) - 1),name,))
 
+    toc_.append("")
     return toc_
         
         
