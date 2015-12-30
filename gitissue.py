@@ -19,7 +19,7 @@ import glob,subprocess
 __author__ = "Leslie Zhu (pythonisland@gmail.com)"
 __version__ = "1.0.0"
 
-def add_link(issue=""):
+def add_link(issue,issuefile):
     """
     Add header link in issue.
 
@@ -36,11 +36,19 @@ def add_link(issue=""):
     Thus, use function `toc` can display it's toc
     """
 
-    issue_file = glob.glob("issues/*/#%s-*.md" % (issue,))
-    if not issue_file: return None
-    
-    in_issue_file = issue_file[0]
-    print in_issue_file
+    if issuefile:
+        in_issue_file = issuefile
+    else:
+        issue_file = glob.glob("issues/*/#%s-*.md" % (issue,))
+        if issue_file:
+            in_issue_file = issue_file[0]
+        else:
+            return None
+        
+    if not os.path.exists(in_issue_file):
+        return None
+    else:
+        print in_issue_file
 
     contents = []
     i = 0
@@ -81,9 +89,9 @@ def add_link(issue=""):
 
     # update toc
     print "New Toc:"
-    print '\n'.join(toc(issue))
+    print '\n'.join(toc(issue,in_issue_file))
 
-def toc(issue=""):
+def toc(issue,issuefile):
     """ 
     Generate issue page's table-of-contents information
 
@@ -99,17 +107,26 @@ def toc(issue=""):
     """
 
     toc_ = []
-    
-    issue_file = glob.glob("issues/*/#%s-*.md" % (issue,))
-    if not issue_file: return toc_
 
-    
+    if issuefile:
+        in_issue_file = issuefile
+    else:
+        issue_file = glob.glob("issues/*/#%s-*.md" % (issue,))
+        if  issue_file:
+            in_issue_file = issue_file[0]
+        else:
+            return toc_
+
+    if not os.path.exists(in_issue_file):
+        return None
+    else:
+        print in_issue_file
 
     toc_.append("")
     toc_.append("<a name='toc'>**目录:**</a>")
     toc_.append("")
     
-    with open(issue_file[0],"r") as cin:
+    with open(in_issue_file,"r") as cin:
         for line in cin:
             if not line.startswith("#"): continue
             issue_re = re.search("(#*).*name=\'(.*)\'>(.*)</a>",line)
@@ -340,6 +357,7 @@ def main(args):
     parser.add_option('-l', '--link', dest = 'link', action = 'store_true', default = False, help = 'add header link in issue')
     
     parser.add_option('-i', '--issue', dest = 'issue', type = 'string', default = '', help = 'issue num')
+    parser.add_option('-f', '--issuefile', dest = 'issuefile', type = 'string', default = '', help = 'issue file')
     parser.add_option('-s', '--state',  dest = 'state', type = 'string', default = 'open', help = 'issue state(open,closed,all)')
     
     parser.add_option('-r', '--repo', dest = 'repo', type = 'string', default = 'MinYi', help = 'GitHub repo(MinYi)')
@@ -354,11 +372,11 @@ def main(args):
     if opts.analyse:
         analyse()
 
-    if opts.toc and opts.issue:
-        print '\n'.join(toc(opts.issue))
+    if opts.toc:
+        print '\n'.join(toc(opts.issue,opts.issuefile))
 
-    if opts.link and opts.issue:
-        add_link(opts.issue)
+    if opts.link:
+        add_link(opts.issue,opts.issuefile)
         
 if __name__ == "__main__":
     sys.exit(main(sys.argv))
