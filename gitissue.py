@@ -43,7 +43,6 @@ def add_link(issue=""):
     print in_issue_file
 
     contents = []
-    toc_ = toc(issue)
     i = 0
     has_toc = False
     
@@ -62,6 +61,8 @@ def add_link(issue=""):
             else:
                 pass
 
+            #if "# 评论" in line: break
+
             if line.startswith("#") and not block_state:
                 i += 1
                 if re.search("^(#*).*name=\'(.*)\'>(.*)</a>",line):
@@ -76,11 +77,11 @@ def add_link(issue=""):
                 
     # save new issue
     with open(in_issue_file,"w") as cout:
-        print '\n'.join(toc_)
-        if len(toc_) > 4 and not has_toc:
-            cout.write('\n'.join(toc_) + '\n')
-
         cout.write('\n'.join(contents) + '\n')
+
+    # update toc
+    print "New Toc:"
+    print '\n'.join(toc(issue))
 
 def toc(issue=""):
     """ 
