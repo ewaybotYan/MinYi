@@ -49,11 +49,15 @@ def add_link(issues=""):
                 for line in cin:
                     line = line.strip('\r\n')
                     
-                    if line.startswith("#") and not re.search("^(#*).*name=\'(.*)\'>(.*)</a>",line):
-                        level,name = re.search("(#*) *(.*)",line).groups()
+                    if line.startswith("#"):
                         i += 1
-                        cout.write("%s <a name='%s'>%s</a>" % (level,i,name,) + '\r\n')
-                        cout.write("%s:dart:[回到目录](#toc)" % ("&nbsp;"*140,) + '\r\n')
+                        if re.search("^(#*).*name=\'(.*)\'>(.*)</a>",line):
+                            level,tag,name = re.search("^(#*).*name=\'(.*)\'>\[(.*)\].*</a>",line).groups()
+                            cout.write("%s <a name='%s'>[%s](#%s)</a>" % (level,i,name,i) + '\r\n')
+                        else:
+                            level,name = re.search("(#*) *(.*)",line).groups()
+                            cout.write("%s <a name='%s'>[%s](#%s)</a>" % (level,i,name,i) + '\r\n')
+                            cout.write("%s:dart:[回到目录](#toc)" % ("&nbsp;"*140,) + '\r\n')
                     else:
                         cout.write(line + '\r\n')
 
@@ -91,7 +95,8 @@ def toc(issues=""):
                 issue_re = re.search("(#*).*name=\'(.*)\'>(.*)</a>",line)
                 if issue_re:
                     level,tag,name  = issue_re.groups()
-                    print "%s* [%s](#%s)" % (' ' * (len(level) - 1),name,tag,)
+                    #print "%s* [%s](#%s)" % (' ' * (len(level) - 1),name,tag,)
+                    print "%s* %s" % (' ' * (len(level) - 1),name,)
 
         print
         print
