@@ -30,7 +30,7 @@
 [#32](https://github.com/LeslieZhu/MinYi/issues/32)|[长安遍地是黄金](https://github.com/LeslieZhu/MinYi/issues?q=label:长安遍地是黄金)|[游明城墙与碑林](https://github.com/LeslieZhu/MinYi/issues/32)
 [#31](https://github.com/LeslieZhu/MinYi/issues/31)|[Swift](https://github.com/LeslieZhu/MinYi/issues?q=label:Swift)|[初识Swift](https://github.com/LeslieZhu/MinYi/issues/31)
 [#30](https://github.com/LeslieZhu/MinYi/issues/30)|[Swift](https://github.com/LeslieZhu/MinYi/issues?q=label:Swift)|[用swift开发OS X程序](https://github.com/LeslieZhu/MinYi/issues/30)
-[#29](https://github.com/LeslieZhu/MinYi/issues/29)|[Python与黑客](https://github.com/LeslieZhu/MinYi/issues?q=label:Python与黑客)|[python黑客教程翻译、整理](https://github.com/LeslieZhu/MinYi/issues/29)
+[#29](https://github.com/LeslieZhu/MinYi/issues/29)|[Python与黑客](https://github.com/LeslieZhu/MinYi/issues?q=label:Python与黑客)|[信息安全中常用的Python技术](https://github.com/LeslieZhu/MinYi/issues/29)
 [#28](https://github.com/LeslieZhu/MinYi/issues/28)|[长安遍地是黄金](https://github.com/LeslieZhu/MinYi/issues?q=label:长安遍地是黄金)|[简单了解一下八卦](https://github.com/LeslieZhu/MinYi/issues/28)
 [#27](https://github.com/LeslieZhu/MinYi/issues/27)|[Python与黑客](https://github.com/LeslieZhu/MinYi/issues?q=label:Python与黑客)|[网络攻防平台](https://github.com/LeslieZhu/MinYi/issues/27)
 [#26](https://github.com/LeslieZhu/MinYi/issues/26)|[Swift](https://github.com/LeslieZhu/MinYi/issues?q=label:Swift)|[Swift：语法概览](https://github.com/LeslieZhu/MinYi/issues/26)
