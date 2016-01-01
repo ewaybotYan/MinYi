@@ -8,7 +8,7 @@
 
 # 标签
 
-- [All (32篇)](https://github.com/LeslieZhu/MinYi/issues?q=is:issue)
+- [All (33篇)](https://github.com/LeslieZhu/MinYi/issues?q=is:issue)
 - [Go (3篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:Go)
 - [Linux (1篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:Linux)
 - [Node (1篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:Node)
@@ -18,15 +18,16 @@
 - [到此一游 (2篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:到此一游)
 - [博客 (1篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:博客)
 - [建筑 (1篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:建筑)
-- [英文翻译 (5篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:英文翻译)
+- [英文翻译 (6篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:英文翻译)
 - [长安遍地是黄金 (3篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:长安遍地是黄金)
 
-# 2015年 (32篇)
+# 2015年 (33篇)
 
-## 2015年12月 (24篇)
+## 2015年12月 (25篇)
 
 编号 | 标签 | 文章
 -----|------|----
+[#34](https://github.com/LeslieZhu/MinYi/issues/34)|[英文翻译](https://github.com/LeslieZhu/MinYi/issues?q=label:英文翻译)|[南中国海: 菲律宾在争议岛屿的抗议行为惹怒中国](https://github.com/LeslieZhu/MinYi/issues/34)
 [#32](https://github.com/LeslieZhu/MinYi/issues/32)|[长安遍地是黄金](https://github.com/LeslieZhu/MinYi/issues?q=label:长安遍地是黄金)|[游明城墙与碑林](https://github.com/LeslieZhu/MinYi/issues/32)
 [#31](https://github.com/LeslieZhu/MinYi/issues/31)|[Swift](https://github.com/LeslieZhu/MinYi/issues?q=label:Swift)|[初识Swift](https://github.com/LeslieZhu/MinYi/issues/31)
 [#30](https://github.com/LeslieZhu/MinYi/issues/30)|[Swift](https://github.com/LeslieZhu/MinYi/issues?q=label:Swift)|[用swift开发OS X程序](https://github.com/LeslieZhu/MinYi/issues/30)
