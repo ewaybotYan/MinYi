@@ -285,6 +285,8 @@ def analyse():
     for issue in glob.glob("issues/*/*.md"):
         issuedir,label,issuename = issue.strip().split('/')
 
+        if label in ["到此一游"]:continue
+
         issuename = issuename.split('-')
         issueNum,created_at,issueTitle = issuename[0],issuename[1:4],'-'.join(issuename[4:])
 

@@ -8,22 +8,21 @@
 
 # 标签
 
-- [All (34篇)](https://github.com/LeslieZhu/MinYi/issues?q=is:issue)
+- [All (32篇)](https://github.com/LeslieZhu/MinYi/issues?q=is:issue)
 - [Go (3篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:Go)
 - [Linux (1篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:Linux)
 - [Node (1篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:Node)
 - [Python与黑客 (11篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:Python与黑客)
 - [Swift (3篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:Swift)
 - [iOS (1篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:iOS)
-- [到此一游 (2篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:到此一游)
 - [博客 (1篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:博客)
 - [建筑 (1篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:建筑)
 - [英文翻译 (7篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:英文翻译)
 - [长安遍地是黄金 (3篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:长安遍地是黄金)
 
-# 2015年 (34篇)
+# 2015年 (32篇)
 
-## 2015年12月 (26篇)
+## 2015年12月 (24篇)
 
 编号 | 标签 | 文章
 -----|------|----
@@ -45,14 +44,12 @@
 [#19](https://github.com/LeslieZhu/MinYi/issues/19)|[Go](https://github.com/LeslieZhu/MinYi/issues?q=label:Go)|[测试Golang程序](https://github.com/LeslieZhu/MinYi/issues/19)
 [#18](https://github.com/LeslieZhu/MinYi/issues/18)|[Go](https://github.com/LeslieZhu/MinYi/issues?q=label:Go)|[建立Golang开发环境](https://github.com/LeslieZhu/MinYi/issues/18)
 [#17](https://github.com/LeslieZhu/MinYi/issues/17)|[Python与黑客](https://github.com/LeslieZhu/MinYi/issues?q=label:Python与黑客)|[安装Docker](https://github.com/LeslieZhu/MinYi/issues/17)
-[#16](https://github.com/LeslieZhu/MinYi/issues/16)|[到此一游](https://github.com/LeslieZhu/MinYi/issues?q=label:到此一游)|[how to get the AJAX parameters of cnbeta?](https://github.com/LeslieZhu/MinYi/issues/16)
 [#15](https://github.com/LeslieZhu/MinYi/issues/15)|[Python与黑客](https://github.com/LeslieZhu/MinYi/issues?q=label:Python与黑客)|[@staticmethod和@classmethod的区别](https://github.com/LeslieZhu/MinYi/issues/15)
 [#14](https://github.com/LeslieZhu/MinYi/issues/14)|[英文翻译](https://github.com/LeslieZhu/MinYi/issues?q=label:英文翻译)|[虫师](https://github.com/LeslieZhu/MinYi/issues/14)
 [#13](https://github.com/LeslieZhu/MinYi/issues/13)|[英文翻译](https://github.com/LeslieZhu/MinYi/issues?q=label:英文翻译)|[如何提高爱玩视频游戏孩子的阅读能力?](https://github.com/LeslieZhu/MinYi/issues/13)
 [#12](https://github.com/LeslieZhu/MinYi/issues/12)|[英文翻译](https://github.com/LeslieZhu/MinYi/issues?q=label:英文翻译)|[把孩子送去学校还是放在家里自己来教育?](https://github.com/LeslieZhu/MinYi/issues/12)
 [#11](https://github.com/LeslieZhu/MinYi/issues/11)|[Python与黑客](https://github.com/LeslieZhu/MinYi/issues?q=label:Python与黑客)|[Python装饰器的使用](https://github.com/LeslieZhu/MinYi/issues/11)
 [#10](https://github.com/LeslieZhu/MinYi/issues/10)|[Python与黑客](https://github.com/LeslieZhu/MinYi/issues?q=label:Python与黑客)|[PEP8: Python编码风格](https://github.com/LeslieZhu/MinYi/issues/10)
-[#9](https://github.com/LeslieZhu/MinYi/issues/9)|[到此一游](https://github.com/LeslieZhu/MinYi/issues?q=label:到此一游)|[请写点技术方面的文章](https://github.com/LeslieZhu/MinYi/issues/9)
 
 ## 2015年11月 (5篇)
 
