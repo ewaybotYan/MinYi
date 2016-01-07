@@ -8,7 +8,7 @@
 
 # 标签
 
-- [All (32篇)](https://github.com/LeslieZhu/MinYi/issues?q=is:issue)
+- [All (33篇)](https://github.com/LeslieZhu/MinYi/issues?q=is:issue)
 - [Go (3篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:Go)
 - [Linux (1篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:Linux)
 - [Node (1篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:Node)
@@ -18,11 +18,29 @@
 - [博客 (1篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:博客)
 - [建筑 (1篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:建筑)
 - [英文翻译 (7篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:英文翻译)
-- [长安遍地是黄金 (3篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:长安遍地是黄金)
+- [长安遍地是黄金 (4篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:长安遍地是黄金)
 
-# 2015年 (32篇)
+# 时间
 
-## 2015年12月 (24篇)
+- [2016年 (1篇)](#2016)
+  - [2016年01月 (1篇)](#201601)
+- [2015年 (32篇)](#2015)
+  - [2015年12月 (24篇)](#201512)
+  - [2015年11月 (5篇)](#201511)
+  - [2015年07月 (3篇)](#201507)
+
+# <a name='2016'>2016年 (1篇)</a>
+
+## <a name='201601'>2016年01月 (1篇)</a>
+
+编号 | 标签 | 文章
+-----|------|----
+[#36](https://github.com/LeslieZhu/MinYi/issues/36)|[长安遍地是黄金](https://github.com/LeslieZhu/MinYi/issues?q=label:长安遍地是黄金)|[我的《武林外传》记忆](https://github.com/LeslieZhu/MinYi/issues/36)
+
+
+# <a name='2015'>2015年 (32篇)</a>
+
+## <a name='201512'>2015年12月 (24篇)</a>
 
 编号 | 标签 | 文章
 -----|------|----
@@ -51,7 +69,7 @@
 [#11](https://github.com/LeslieZhu/MinYi/issues/11)|[Python与黑客](https://github.com/LeslieZhu/MinYi/issues?q=label:Python与黑客)|[Python装饰器的使用](https://github.com/LeslieZhu/MinYi/issues/11)
 [#10](https://github.com/LeslieZhu/MinYi/issues/10)|[Python与黑客](https://github.com/LeslieZhu/MinYi/issues?q=label:Python与黑客)|[PEP8: Python编码风格](https://github.com/LeslieZhu/MinYi/issues/10)
 
-## 2015年11月 (5篇)
+## <a name='201511'>2015年11月 (5篇)</a>
 
 编号 | 标签 | 文章
 -----|------|----
@@ -61,7 +79,7 @@
 [#5](https://github.com/LeslieZhu/MinYi/issues/5)|[Python与黑客](https://github.com/LeslieZhu/MinYi/issues?q=label:Python与黑客)|[开源项目收集清单](https://github.com/LeslieZhu/MinYi/issues/5)
 [#4](https://github.com/LeslieZhu/MinYi/issues/4)|[Python与黑客](https://github.com/LeslieZhu/MinYi/issues?q=label:Python与黑客)|[Pygame游戏编程入门笔记](https://github.com/LeslieZhu/MinYi/issues/4)
 
-## 2015年07月 (3篇)
+## <a name='201507'>2015年07月 (3篇)</a>
 
 编号 | 标签 | 文章
 -----|------|----

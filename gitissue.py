@@ -311,6 +311,7 @@ def summary(label_data,issues_data):
     _about  = "# 说明\n\n [欢迎访问此博客(敏毅)!](https://github.com/LeslieZhu/MinYi/issues/1)\n\n"
     
     _label_header = "# 标签\n\n"
+    _year_header = "# 时间\n\n"
     _table_header = "编号 | 标签 | 文章\n-----|------|----\n"
     _copyright = "# 版权说明\n\n未经允许，禁止转载！\n\n"
     
@@ -325,10 +326,17 @@ def summary(label_data,issues_data):
             cout.write("- [%s (%s篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:%s)\n" % (label,label_data[label],label,))
         cout.write('\n')
 
+        cout.write(_year_header)
         for year in sorted(issues_data.keys(),reverse=True):
-            cout.write("# %s年 (%s篇)\n\n" % (year,sum(label_data[x] for x in label_data),))
+            cout.write("- [%s年 (%s篇)](#%s)\n" % (year,sum(len(issues_data[year][x]) for x in issues_data[year]),year,))
             for month in sorted(issues_data[year].keys(),reverse=True):
-                cout.write("## %s年%s月 (%s篇)\n\n" % (year,month,len(issues_data[year][month]),))
+                cout.write("  - [%s年%s月 (%s篇)](#%s)\n" % (year,month,len(issues_data[year][month]),year+month,))
+        cout.write('\n')
+
+        for year in sorted(issues_data.keys(),reverse=True):
+            cout.write("# <a name='%s'>%s年 (%s篇)</a>\n\n" % (year,year,sum(len(issues_data[year][x]) for x in issues_data[year]),))
+            for month in sorted(issues_data[year].keys(),reverse=True):
+                cout.write("## <a name='%s'>%s年%s月 (%s篇)</a>\n\n" % (year+month,year,month,len(issues_data[year][month]),))
                 cout.write(_table_header)
                 for issue in sorted(issues_data[year][month],key=lambda x: int(x[0][1:]),reverse=True):
                     issue_num,issue_label,issue_title = issue
