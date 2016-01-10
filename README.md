@@ -8,11 +8,12 @@
 
 # 标签
 
-- [All (33篇)](https://github.com/LeslieZhu/MinYi/issues?q=is:issue)
+- [All (34篇)](https://github.com/LeslieZhu/MinYi/issues?q=is:issue)
 - [Go (3篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:Go)
 - [Linux (1篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:Linux)
 - [Node (1篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:Node)
 - [Python与黑客 (11篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:Python与黑客)
+- [R (1篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:R)
 - [Swift (3篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:Swift)
 - [iOS (1篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:iOS)
 - [博客 (1篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:博客)
@@ -24,8 +25,8 @@
 
 - [2016年 (1篇)](#2016)
   - [2016年01月 (1篇)](#201601)
-- [2015年 (32篇)](#2015)
-  - [2015年12月 (24篇)](#201512)
+- [2015年 (33篇)](#2015)
+  - [2015年12月 (25篇)](#201512)
   - [2015年11月 (5篇)](#201511)
   - [2015年07月 (3篇)](#201507)
 
@@ -38,12 +39,13 @@
 [#36](https://github.com/LeslieZhu/MinYi/issues/36)|[长安遍地是黄金](https://github.com/LeslieZhu/MinYi/issues?q=label:长安遍地是黄金)|[我的《武林外传》记忆](https://github.com/LeslieZhu/MinYi/issues/36)
 
 
-# <a name='2015'>2015年 (32篇)</a>
+# <a name='2015'>2015年 (33篇)</a>
 
-## <a name='201512'>2015年12月 (24篇)</a>
+## <a name='201512'>2015年12月 (25篇)</a>
 
 编号 | 标签 | 文章
 -----|------|----
+[#35](https://github.com/LeslieZhu/MinYi/issues/35)|[R](https://github.com/LeslieZhu/MinYi/issues?q=label:R)|[初识R语言](https://github.com/LeslieZhu/MinYi/issues/35)
 [#34](https://github.com/LeslieZhu/MinYi/issues/34)|[英文翻译](https://github.com/LeslieZhu/MinYi/issues?q=label:英文翻译)|[南中国海: 菲律宾在争议岛屿的抗议行为惹怒中国](https://github.com/LeslieZhu/MinYi/issues/34)
 [#33](https://github.com/LeslieZhu/MinYi/issues/33)|[英文翻译](https://github.com/LeslieZhu/MinYi/issues?q=label:英文翻译)|[中国力量盘点: 硬实力与软实力](https://github.com/LeslieZhu/MinYi/issues/33)
 [#32](https://github.com/LeslieZhu/MinYi/issues/32)|[长安遍地是黄金](https://github.com/LeslieZhu/MinYi/issues?q=label:长安遍地是黄金)|[游明城墙与碑林](https://github.com/LeslieZhu/MinYi/issues/32)
