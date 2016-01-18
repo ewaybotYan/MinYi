@@ -8,12 +8,12 @@
 
 # 标签
 
-- [All (34篇)](https://github.com/LeslieZhu/MinYi/issues?q=is:issue)
+- [All (35篇)](https://github.com/LeslieZhu/MinYi/issues?q=is:issue)
 - [Go (3篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:Go)
 - [Linux (1篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:Linux)
 - [Node (1篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:Node)
 - [Python与黑客 (11篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:Python与黑客)
-- [R (1篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:R)
+- [R (2篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:R)
 - [Swift (3篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:Swift)
 - [iOS (1篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:iOS)
 - [博客 (1篇)](https://github.com/LeslieZhu/MinYi/issues?q=label:博客)
@@ -23,19 +23,20 @@
 
 # 时间
 
-- [2016年 (1篇)](#2016)
-  - [2016年01月 (1篇)](#201601)
+- [2016年 (2篇)](#2016)
+  - [2016年01月 (2篇)](#201601)
 - [2015年 (33篇)](#2015)
   - [2015年12月 (25篇)](#201512)
   - [2015年11月 (5篇)](#201511)
   - [2015年07月 (3篇)](#201507)
 
-# <a name='2016'>2016年 (1篇)</a>
+# <a name='2016'>2016年 (2篇)</a>
 
-## <a name='201601'>2016年01月 (1篇)</a>
+## <a name='201601'>2016年01月 (2篇)</a>
 
 编号 | 标签 | 文章
 -----|------|----
+[#38](https://github.com/LeslieZhu/MinYi/issues/38)|[R](https://github.com/LeslieZhu/MinYi/issues?q=label:R)|[R: 软件包的安装与使用](https://github.com/LeslieZhu/MinYi/issues/38)
 [#36](https://github.com/LeslieZhu/MinYi/issues/36)|[长安遍地是黄金](https://github.com/LeslieZhu/MinYi/issues?q=label:长安遍地是黄金)|[我的《武林外传》记忆](https://github.com/LeslieZhu/MinYi/issues/36)
 
 
